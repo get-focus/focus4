@@ -1,7 +1,7 @@
+import {AnimatePresence} from "framer-motion";
 import {autorun, comparer, observable, reaction} from "mobx";
 import {useAsObservableSource, useLocalStore, useObserver} from "mobx-react";
 import {ComponentType, useContext, useEffect} from "react";
-import {Transition} from "react-pose";
 
 import {CollectionStore} from "@focus4/stores";
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -260,7 +260,7 @@ export function List<T>({
                                     />
                                 </li>
                             ) : null}
-                            {DetailComponent ? <Transition>{lines}</Transition> : lines}
+                            {DetailComponent ? <AnimatePresence>{lines}</AnimatePresence> : lines}
                         </ul>
                     )}
                     {/* Gestion de l'affichage du chargement. */}

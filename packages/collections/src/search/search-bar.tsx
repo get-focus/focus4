@@ -1,3 +1,4 @@
+import {AnimatePresence, motion} from "framer-motion";
 import i18next from "i18next";
 import {difference, toPairs} from "lodash";
 import {useLocalStore, useObserver} from "mobx-react";
@@ -5,10 +6,9 @@ import {ReactElement, useEffect, useRef, useState} from "react";
 
 import {fieldFor, SelectCheckbox} from "@focus4/forms";
 import {CollectionStore, FormEntityField, makeField, makeReferenceList, toFlatValues} from "@focus4/stores";
-import {CSSProp, getIcon, springPose, useTheme} from "@focus4/styling";
+import {CSSProp, getIcon, springTransition, useTheme} from "@focus4/styling";
 import {Button, Checkbox, FontIcon, IconButton} from "@focus4/toolbox";
 
-import posed, {Transition} from "react-pose";
 import searchBarCss, {SearchBarCss} from "./__style__/search-bar.css";
 export {searchBarCss, SearchBarCss};
 
@@ -223,9 +223,15 @@ export function SearchBar<T, C>({
                 ) : null}
             </div>
             {!showPanel && state.error ? <span className={theme.errors()}>{state.error}</span> : null}
-            <Transition>
+            <AnimatePresence>
                 {showPanel && (
-                    <PanningDiv className={theme.panel()} key="panel">
+                    <motion.div
+                        className={theme.panel()}
+                        initial={{height: 0, y: -40}}
+                        animate={{height: "auto", y: 0, overflow: "hidden", transitionEnd: {overflow: "auto"}}}
+                        exit={{height: 0, y: -40, overflow: "hidden", transitionEnd: {overflow: "auto"}}}
+                        transition={springTransition}
+                    >
                         {criteriaComponent
                             ? fieldFor(
                                   makeField("query", f =>
@@ -277,26 +283,9 @@ export function SearchBar<T, C>({
                                 <Button onClick={state.clear} label={i18next.t(`${i18nPrefix}.search.bar.reset`)} />
                             </div>
                         ) : null}
-                    </PanningDiv>
+                    </motion.div>
                 )}
-            </Transition>
+            </AnimatePresence>
         </div>
     ));
 }
-
-const PanningDiv = posed.div({
-    exit: {
-        height: 0,
-        y: -40,
-        ...springPose,
-        applyAtStart: {overflow: "hidden"},
-        applyAtEnd: {overflow: "auto"}
-    },
-    enter: {
-        height: "auto",
-        y: 0,
-        ...springPose,
-        applyAtStart: {overflow: "hidden"},
-        applyAtEnd: {overflow: "auto"}
-    }
-});

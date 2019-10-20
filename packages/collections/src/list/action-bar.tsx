@@ -1,12 +1,12 @@
+import {AnimatePresence, motion} from "framer-motion";
 import i18next from "i18next";
 import {reduce} from "lodash";
 import {action, reaction} from "mobx";
 import {useObserver} from "mobx-react";
 import {useEffect, useState} from "react";
-import posed, {Transition} from "react-pose";
 
 import {CollectionStore} from "@focus4/stores";
-import {CSSProp, defaultPose, getIcon, useTheme} from "@focus4/styling";
+import {CSSProp, defaultTransition, getIcon, useTheme} from "@focus4/styling";
 import {Button, ButtonMenu, IconButton, Input, MenuItem} from "@focus4/toolbox";
 
 import {AdditionalFacet, FacetBox, shouldDisplayFacet} from "../search";
@@ -238,9 +238,15 @@ export function ActionBar<T>({
             {/* FacetBox */}
             {hasFacetBox ? (
                 <div className={theme.facetBoxContainer()}>
-                    <Transition>
+                    <AnimatePresence>
                         {displayFacetBox && (
-                            <PanningDiv key="facet-box">
+                            <motion.div
+                                key="facet-box"
+                                initial={{height: 0}}
+                                animate={{height: "auto"}}
+                                exit={{height: 0}}
+                                transition={defaultTransition}
+                            >
                                 <IconButton
                                     icon={getIcon(`${i18nPrefix}.icons.actionBar.close`)}
                                     onClick={() => setDisplayFacetBox(false)}
@@ -252,9 +258,9 @@ export function ActionBar<T>({
                                     store={store}
                                     theme={{facetBox: theme.facetBox()}}
                                 />
-                            </PanningDiv>
+                            </motion.div>
                         )}
-                    </Transition>
+                    </AnimatePresence>
                 </div>
             ) : null}
         </div>
@@ -268,14 +274,3 @@ export function ActionBar<T>({
 export function actionBarFor<T>(props: ActionBarProps<T>) {
     return <ActionBar {...props} />;
 }
-
-const PanningDiv = posed.div({
-    exit: {
-        height: 0,
-        ...defaultPose
-    },
-    enter: {
-        height: "auto",
-        ...defaultPose
-    }
-});

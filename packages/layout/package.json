@@ -19,11 +19,11 @@
         "@focus4/styling": "^10.7.5",
         "@focus4/toolbox": "^10.7.5",
         "@types/react-transition-group": "4.4.1",
+        "framer-motion": "4.0.3",
         "intersection-observer": "0.12.0",
-        "popmotion": "8.7.3",
-        "react-pose": "4.0.9",
         "react-transition-group": "4.4.1",
         "resize-observer-polyfill": "1.5.1",
-        "smoothscroll-polyfill": "0.4.4"
+        "smoothscroll-polyfill": "0.4.4",
+        "stylefire": "7.0.3"
     }
 }

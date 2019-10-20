@@ -1,22 +1,22 @@
 import "intersection-observer";
 
 import classNames from "classnames";
+import {AnimatePresence} from "framer-motion";
 import {debounce, memoize, range} from "lodash";
-import {action, autorun, computed, observable} from "mobx";
+import {action, autorun, observable} from "mobx";
 import {disposeOnUnmount, observer, useObserver} from "mobx-react";
-import {ColdSubscription, spring, styler} from "popmotion";
+import {animate} from "popmotion";
 import {cloneElement, Component, forwardRef, HTMLProps, Key, PropsWithChildren, ReactNode, Ref} from "react";
 import {createPortal, findDOMNode} from "react-dom";
-import {Transition} from "react-pose";
 import ResizeObserverPolyfill from "resize-observer-polyfill";
-import {Styler} from "stylefire";
+import styler, {Styler} from "stylefire";
 
-import {CSSProp, ScrollableContext, springPose, themr} from "@focus4/styling";
+import {CSSProp, ScrollableContext, springTransition, themr} from "@focus4/styling";
 import {Button} from "@focus4/toolbox";
 
 import {ButtonBackToTop} from "./button-back-to-top";
 export {ButtonBttCss, buttonBttCss} from "./button-back-to-top";
-import {AnimatedHeader, FixedHeader} from "./header";
+import {Header} from "./header";
 
 import scrollableCss, {ScrollableCss} from "./__style__/scrollable.css";
 export {scrollableCss, ScrollableCss};
@@ -70,11 +70,6 @@ class ScrollableComponent extends Component<ScrollableProps> {
     @observable isMenuOpened = true;
     @observable isMenuRetractable = true;
     @observable width = 0;
-
-    @computed
-    get menuOffsetTop() {
-        return this.isHeaderSticky ? this.menuNode.offsetTop : 0;
-    }
 
     /** @see ScrollableContext.registerHeader */
     @action.bound
@@ -162,7 +157,7 @@ class ScrollableComponent extends Component<ScrollableProps> {
                 marginTop:
                     getOffsetTop(this.menuParentNodes.get(key)!, this.scrollableNode) -
                     this.scrollableNode.scrollTop -
-                    this.menuOffsetTop
+                    this.menuNode.offsetTop
             });
         }
     });
@@ -226,15 +221,15 @@ class ScrollableComponent extends Component<ScrollableProps> {
     onScrollCoreDebounced = debounce(() => this.onScrollCore(), 50);
     onScrollCore() {
         if (!isIEorEdge()) {
-            this.setMenuRefs(this.menuOffsetTop);
+            this.setMenuRefs(this.menuNode.offsetTop);
         } else {
             this.animateMenuRefs(
-                parentOffsetTop => parentOffsetTop - this.scrollableNode.scrollTop - this.menuOffsetTop
+                parentOffsetTop => parentOffsetTop - this.scrollableNode.scrollTop - this.menuNode.offsetTop
             );
         }
     }
 
-    menuSpring?: ColdSubscription;
+    menuSpring?: {stop: () => void};
 
     @disposeOnUnmount
     followHeader = autorun(() => {
@@ -250,16 +245,19 @@ class ScrollableComponent extends Component<ScrollableProps> {
                 this.menuSpring.stop();
             }
             if (this.canDeploy && from !== to) {
-                this.menuSpring = spring({...springPose.transition, from, to}).start((top: number) => {
-                    menu.set({top});
-                    this.setMenuRefs(top);
-                    if (isIEorEdge()) {
-                        this.onScrollCoreDebounced.cancel();
+                this.menuSpring = animate({
+                    ...springTransition,
+                    from,
+                    to,
+                    onUpdate: (top: number) => {
+                        menu.set({top});
+                        if (isIEorEdge()) {
+                            this.onScrollCoreDebounced.cancel();
+                        }
                     }
                 });
             } else {
                 menu.set({top: to});
-                this.setMenuRefs(to);
             }
         }
 
@@ -270,7 +268,7 @@ class ScrollableComponent extends Component<ScrollableProps> {
         }
     });
 
-    menuItemsSpring?: ColdSubscription;
+    menuItemsSpring?: {stop: () => void};
 
     @disposeOnUnmount
     toggleMenu = autorun(() => {
@@ -283,13 +281,21 @@ class ScrollableComponent extends Component<ScrollableProps> {
             this.menuItemsSpring.stop();
         }
 
-        const from = menu.get("x");
+        let from = menu.get("x");
+        if (from === 0) {
+            from = "0%";
+        }
         const to = this.isMenuOpened ? "0%" : "-100%";
 
         if (from !== to) {
-            this.menuItemsSpring = spring({...springPose.transition, from, to}).start((x: string) => {
-                menu.set({x});
-                this.updateMenuParentNodes(x);
+            this.menuItemsSpring = animate({
+                ...springTransition,
+                from,
+                to,
+                onUpdate: (x: string) => {
+                    menu.set({x});
+                    this.updateMenuParentNodes(x);
+                }
             });
         }
     });
@@ -320,14 +326,18 @@ class ScrollableComponent extends Component<ScrollableProps> {
                 to: Math.max(0, to(getOffsetTop(parentNode, this.scrollableNode)))
             };
             if (transition.from !== transition.to) {
-                spring({...springPose.transition, ...transition}).start((marginTop: number) => {
-                    menuRef.set({
-                        marginTop,
-                        height: `calc(100% - ${marginTop}px)`
-                    });
-                    const buttonMenu = this.menuNode.querySelector("button");
-                    if (buttonMenu) {
-                        styler(buttonMenu).set({top: marginTop});
+                animate({
+                    ...springTransition,
+                    ...transition,
+                    onUpdate: (marginTop: number) => {
+                        menuRef.set({
+                            marginTop,
+                            height: `calc(100% - ${marginTop}px)`
+                        });
+                        const buttonMenu = this.menuNode.querySelector("button");
+                        if (buttonMenu) {
+                            styler(buttonMenu).set({top: marginTop});
+                        }
                     }
                 });
             }
@@ -339,28 +349,25 @@ class ScrollableComponent extends Component<ScrollableProps> {
     setScrollableNode = (ref: HTMLDivElement | null) => ref && (this.scrollableNode = ref);
 
     Header = () =>
-        useObserver(() => {
-            const Header = this.canDeploy ? AnimatedHeader : FixedHeader;
-            return (
-                <Transition>
-                    {this.headerProps && this.isHeaderSticky ? (
-                        <Header
-                            {...this.headerProps}
-                            ref={undefined}
-                            key="header"
-                            onHeightChange={this.setHeight}
-                            style={{width: this.width}}
-                        />
-                    ) : undefined}
-                </Transition>
-            );
-        });
+        useObserver(() => (
+            <AnimatePresence>
+                {this.headerProps && this.isHeaderSticky ? (
+                    <Header
+                        {...this.headerProps}
+                        ref={undefined}
+                        animated={this.canDeploy}
+                        onHeightChange={this.setHeight}
+                        style={{width: this.width}}
+                    />
+                ) : undefined}
+            </AnimatePresence>
+        ));
 
     BackToTop = () =>
         useObserver(() => (
-            <Transition>
-                {!this.props.hideBackToTop && this.hasBtt ? <ButtonBackToTop key="back-to-top" /> : undefined}
-            </Transition>
+            <AnimatePresence>
+                {!this.props.hideBackToTop && this.hasBtt ? <ButtonBackToTop /> : undefined}
+            </AnimatePresence>
         ));
 
     render() {

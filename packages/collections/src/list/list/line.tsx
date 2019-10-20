@@ -1,11 +1,11 @@
+import {motion} from "framer-motion";
 import {IObservableArray} from "mobx";
 import {useAsObservableSource, useLocalStore, useObserver} from "mobx-react";
-import {ComponentType, Ref, useCallback, useEffect, useLayoutEffect} from "react";
+import {ComponentType, Ref, useCallback, useLayoutEffect} from "react";
 import {getEmptyImage} from "react-dnd-html5-backend";
-import posed from "react-pose";
 
 import {CollectionStore} from "@focus4/stores";
-import {getIcon, springPose, ToBem} from "@focus4/styling";
+import {getIcon, springTransition, ToBem} from "@focus4/styling";
 import {IconButton} from "@focus4/toolbox";
 
 import {ContextualActions, OperationListItem} from "../contextual-actions";
@@ -41,8 +41,6 @@ export interface LineWrapperProps<T> {
     LineComponent: ComponentType<LineProps<T> & {ref?: Ref<any>}>;
     /** Configuration de la mosaïque (si applicable). */
     mosaic?: {width: number; height: number};
-    /** Fonction passée par react-pose qu'il faudra appeler au willUnmount pour qu'il retire l'élément du DOM. */
-    onPoseComplete?: (pose: string) => void;
     /** Actions de ligne. */
     operationList?: (data: T) => OperationListItem<T>[];
     /** Store de liste associé à la ligne. */
@@ -62,7 +60,6 @@ export function LineWrapper<T>({
     i18nPrefix,
     LineComponent,
     mosaic,
-    onPoseComplete,
     operationList,
     toggleDetail,
     theme,
@@ -111,14 +108,6 @@ export function LineWrapper<T>({
         }
     }));
 
-    // Si on n'appelle pas ça, vu que la ligne est posée dans un contexte de transition react-pose à cause du détail,
-    // la ligne ne sera jamais retirée du DOM.
-    useEffect(() => {
-        if (onPoseComplete) {
-            onPoseComplete("exit");
-        }
-    }, [onPoseComplete]);
-
     let setRef = domRef;
 
     // Gestion du drag and drop
@@ -148,13 +137,24 @@ export function LineWrapper<T>({
     }
 
     return useObserver(() => (
-        <DraggableLi
+        <motion.li
             className={(mosaic ? theme.mosaic : theme.line)({selected: state.isSelected})}
-            key={mosaic ? "mosaic" : "list"}
             ref={setRef}
-            pose={state.isDragged && !disableDragAnimation ? "dragging" : "idle"}
-            width={mosaic && mosaic.width}
-            height={mosaic && mosaic.height}
+            initial={false}
+            animate={state.isDragged && !disableDragAnimation ? "dragging" : "idle"}
+            exit={{}}
+            variants={{
+                dragging: {
+                    width: mosaic && mosaic.width ? 0 : undefined,
+                    height: 0
+                },
+                idle: {
+                    width: (mosaic && mosaic.width) || "100%",
+                    height: (mosaic && mosaic.height) || "auto"
+                }
+            }}
+            transition={springTransition}
+            style={{opacity: state.isDragged && !disableDragAnimation ? 0 : 1}}
         >
             <LineComponent data={props.data} toggleDetail={toggleDetail} />
             {state.isSelectable ? (
@@ -180,23 +180,6 @@ export function LineWrapper<T>({
                     />
                 </div>
             ) : null}
-        </DraggableLi>
+        </motion.li>
     ));
 }
-
-/** On construit un <li> "draggable". */
-const DraggableLi = posed.li({
-    props: {width: undefined, height: undefined},
-    dragging: {
-        applyAtStart: {opacity: 0},
-        width: ({width}: {width?: number}) => (width ? 0 : undefined),
-        height: 0,
-        ...springPose
-    },
-    idle: {
-        applyAtStart: {opacity: 1},
-        width: ({width}: {width?: number}) => width || "100%",
-        height: ({height}: {height?: number}) => height || "auto",
-        ...springPose
-    }
-});
