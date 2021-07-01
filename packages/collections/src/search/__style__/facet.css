@@ -79,12 +79,12 @@
 .show {
     cursor: pointer;
     font-size: 14px;
-    color: var(--palette-grey-900);
+    color: rgb(var(--palette-grey-900));
 }
 
 .facet li:hover,
 .show:hover {
-    color: var(--color-black);
+    color: rgb(var(--color-black));
 }
 
 .count {
@@ -106,5 +106,5 @@
 }
 
 .icon--selected > span {
-    color: var(--color-primary);
+    color: rgb(var(--color-primary));
 }

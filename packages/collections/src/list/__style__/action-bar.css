@@ -117,7 +117,7 @@
     }
 
     & > div:not(:last-child) {
-        border-right: 1px solid var(--palette-grey-400);
+        border-right: 1px solid rgb(var(--palette-grey-400));
     }
 
     & ul {

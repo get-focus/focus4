@@ -67,7 +67,7 @@
     z-index: var(--z-index-high);
 }
 .clockWrapper {
-    background-color: var(--color-divider);
+    background-color: rgb(var(--color-divider));
     border-radius: 50%;
     position: absolute;
     width: 100%;

@@ -7,7 +7,7 @@
     z-index: var(--z-index-normal);
     width: var(--input-date-width);
     box-shadow: var(--input-date-shadow);
-    background: var(--color-white);
+    background: rgb(var(--color-white));
 
     & header {
         box-sizing: border-box;
@@ -22,7 +22,7 @@
     position: absolute;
     right: 5px;
     top: 5px;
-    color: var(--color-white) !important;
+    color: rgb(var(--color-white)) !important;
 }
 
 .fromRight {

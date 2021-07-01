@@ -14,15 +14,15 @@
     height: 30px;
     width: 130px;
     padding: 5px;
-    background: var(--color-white);
+    background: rgb(var(--color-white));
     border-radius: 2px;
     box-shadow: var(--shadow-2p);
 }
 
 .count {
-    background: var(--color-primary);
+    background: rgb(var(--color-primary));
     border-radius: 50px;
-    color: var(--color-white);
+    color: rgb(var(--color-white));
     padding: 5px;
     height: 30px;
     width: 30px;

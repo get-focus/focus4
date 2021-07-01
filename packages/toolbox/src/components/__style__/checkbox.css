@@ -71,7 +71,7 @@
 .check.checked::after {
     animation: expand 140ms ease-out forwards;
     border-bottom-width: 2px;
-    border-color: var(--color-background);
+    border-color: rgb(var(--color-background));
     border-left: 0;
     border-right-width: 2px;
     border-style: solid;

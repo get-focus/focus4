@@ -1,7 +1,7 @@
 .bar {
     display: flex;
     align-items: center;
-    background-color: var(--color-white);
+    background-color: rgb(var(--color-white));
     z-index: var(--z-index-normal);
     position: relative;
     height: 41px;
@@ -24,7 +24,7 @@
 }
 
 .bar--error {
-    border: 1px solid var(--palette-red-500);
+    border: 1px solid rgb(var(--palette-red-500));
     margin: 9px -1px;
 }
 
@@ -37,7 +37,7 @@
 
 .searchIcon {
     margin: 0 10px;
-    color: color(var(--color-black) a(40%));
+    color: rgba(var(--color-black), 0.4);
 }
 
 .input input {
@@ -54,7 +54,7 @@
 }
 
 .errors {
-    color: var(--palette-red-500);
+    color: rgb(var(--palette-red-500));
     position: absolute;
     font-size: 12px;
     display: block;
@@ -66,7 +66,7 @@
 .panel {
     position: absolute;
     top: 43px;
-    background: var(--color-white);
+    background: rgb(var(--color-white));
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     width: 100%;
     box-sizing: border-box;
@@ -81,7 +81,7 @@
 
 .searchFields {
     & > h6 {
-        color: var(--color-primary);
+        color: rgb(var(--color-primary));
         margin: 0 0 6px 0;
         font-weight: 500;
     }

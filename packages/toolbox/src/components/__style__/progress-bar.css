@@ -1,5 +1,5 @@
 .linear {
-    background: var(--color-divider);
+    background: rgb(var(--color-divider));
     display: inline-block;
     height: var(--progress-height);
     overflow: hidden;

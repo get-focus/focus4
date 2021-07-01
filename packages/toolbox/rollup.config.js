@@ -4,7 +4,6 @@ import pkg from "./package.json";
 import {onwarn, abortOnError} from "../../scripts/rollup";
 
 import resolve from "@rollup/plugin-node-resolve";
-import postcssImport from "postcss-import";
 import postcss from "rollup-plugin-postcss";
 import typescript from "rollup-plugin-typescript2";
 import copy from "rollup-plugin-copy-glob";
@@ -18,7 +17,7 @@ export default (async () => {
     const config = {
         input: "src/focus4.toolbox.ts",
         plugins: [
-            postcss({extract: true, modules: true, plugins: [postcssImport({load: () => ""})]}),
+            postcss({extract: true, modules: true}),
             resolve(),
             typescript({abortOnError: false}),
             copy([{files: "src/components/**/*.css.d.ts", dest: "lib/components"}]),
