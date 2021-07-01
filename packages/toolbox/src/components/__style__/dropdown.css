@@ -77,7 +77,7 @@
 .templateValue {
     background-color: var(--input-text-background-color);
     border-bottom: 1px solid var(--input-text-bottom-border-color);
-    color: var(--color-text);
+    color: rgb(var(--color-text));
     min-height: var(--input-field-height);
     padding: var(--input-field-padding) 0;
     position: relative;

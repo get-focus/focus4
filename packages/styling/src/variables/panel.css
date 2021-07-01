@@ -1,5 +1,5 @@
 :root {
-    --panel-title-border: 1px solid rgba(0, 0, 0, 0.1);
-    --panel-title-color: var(--color-primary);
+    --panel-title-border: 1px solid rgba(var(--color-black), 0.1);
+    --panel-title-color: rgb(var(--color-primary));
     --panel-shadow: var(--shadow-4p);
 }

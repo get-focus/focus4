@@ -9,7 +9,7 @@
     width: 100%;
     margin-bottom: 30px;
     box-shadow: var(--panel-shadow);
-    background: var(--color-white);
+    background: rgb(var(--color-white));
     border-radius: 2px;
 }
 
@@ -68,6 +68,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--color-white);
+    background: rgb(var(--color-white));
     opacity: 0.7;
 }

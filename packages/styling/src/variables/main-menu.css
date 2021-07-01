@@ -1,7 +1,7 @@
 :root {
-    --main-menu-background: var(--color-white);
-    --main-menu-item-active-background: rgba(0, 0, 0, 0.15);
-    --main-menu-item-active-color: var(--color-primary);
-    --main-menu-item-color: var(--color-black);
+    --main-menu-background: rgb(var(--color-white));
+    --main-menu-item-active-background: rgba(var(--color-black), 0.15);
+    --main-menu-item-active-color: rgb(var(--color-primary));
+    --main-menu-item-color: rgb(var(--color-black));
     --main-menu-item-height: 60px;
 }

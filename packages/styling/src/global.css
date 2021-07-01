@@ -1,5 +1,5 @@
 html {
-    color: var(--color-black);
+    color: rgb(var(--color-black));
     font-size: var(--font-size-small);
     line-height: 1.4;
     font-family: var(--preferred-font);

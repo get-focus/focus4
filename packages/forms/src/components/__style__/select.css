@@ -9,7 +9,7 @@
         border-left: 0;
         border-right: 0;
         border-bottom: 1px solid var(--select-line-color);
-        color: var(--color-text);
+        color: rgb(var(--color-text));
         height: var(--select-height);
         font-size: var(--input-field-font-size);
         appearance: none;

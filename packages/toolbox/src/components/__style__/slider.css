@@ -131,7 +131,7 @@
     width: var(--slider-pin-size);
 }
 .slider.pinned .innerknob::after {
-    color: var(--color-background);
+    color: rgb(var(--color-background));
     content: attr(data-value);
     font-size: 10px;
     height: var(--slider-pin-size);
@@ -162,7 +162,7 @@
 }
 .slider.ring .innerknob {
     background-color: transparent;
-    border: var(--slider-empty-knob-border) solid var(--color-divider);
+    border: var(--slider-empty-knob-border) solid rgb(var(--color-divider));
 }
 .slider.ring .innerknob::before {
     background-color: var(--slider-main-color);
@@ -173,7 +173,7 @@
     width: calc(100% - var(--slider-empty-knob-border) * 2);
 }
 .slider.ring.pinned .innerknob {
-    background-color: var(--color-background);
+    background-color: rgb(var(--color-background));
 }
 .slider.ring.pinned .progress {
     left: calc(var(--slider-knob-size) / 2);

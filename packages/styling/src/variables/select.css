@@ -1,5 +1,5 @@
 :root {
     --select-height: 36px;
-    --select-arrow-color: var(--color-black);
+    --select-arrow-color: rgb(var(--color-black));
     --select-line-color: var(--input-text-bottom-border-color);
 }

@@ -19,7 +19,7 @@
 /* Ci-dessous, recopie du CSS du tableau react-toolbox */
 
 .table {
-    background-color: var(--color-white);
+    background-color: rgb(var(--color-white));
     border-collapse: collapse;
     font-size: var(--table-font-size);
     width: 100%;
@@ -103,12 +103,12 @@
 }
 
 .sortable:hover .headerText {
-    border-bottom-color: var(--color-primary);
+    border-bottom-color: rgb(var(--color-primary));
 }
 
 .sortable:hover,
 .sortable--sorted {
-    color: var(--color-primary);
+    color: rgb(var(--color-primary));
 
     & span:first-child {
         opacity: 1;

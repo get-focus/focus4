@@ -1,5 +1,5 @@
 :root {
     --timeline-date-width: 100px;
-    --timeline-date-color: var(--color-accent);
-    --timeline-line-color: var(--color-primary);
+    --timeline-date-color: rgb(var(--color-accent));
+    --timeline-line-color: rgb(var(--color-primary));
 }

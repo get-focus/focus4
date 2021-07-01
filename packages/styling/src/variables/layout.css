@@ -1,7 +1,7 @@
 :root {
     --content-padding-side: 20px;
     --content-padding-top: 20px;
-    --layout-background: var(--palette-grey-50);
+    --layout-background: rgb(var(--palette-grey-50));
     --layout-footer-margin: 30px 0 0 0;
     --layout-footer-padding: 10px;
 }

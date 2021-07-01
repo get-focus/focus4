@@ -1,6 +1,6 @@
 :root {
-    --action-bar-background: var(--color-white);
-    --action-bar-facetbox-background: var(--palette-grey-200);
+    --action-bar-background: rgb(var(--color-white));
+    --action-bar-facetbox-background: rgb(var(--palette-grey-200));
     --action-bar-facetbox-triangle-height: 15px;
     --action-bar-facetbox-triangle-width: 30px;
     --action-bar-font-weight: bold;
@@ -8,8 +8,8 @@
     --action-bar-margin: 0 0 10px 0;
     --action-bar-padding: 10px;
     --action-bar-search-bar-width: 250px;
-    --action-bar-selection-background: var(--color-primary);
-    --action-bar-selection-color: var(--color-white);
+    --action-bar-selection-background: rgb(var(--color-primary));
+    --action-bar-selection-color: rgb(var(--color-white));
     --action-bar-shadow: var(--shadow-2p);
     --action-bar-transition: 0.1s ease-out;
 }

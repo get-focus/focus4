@@ -13,7 +13,7 @@
     "scripts": {
         "bootstrap": "lerna bootstrap --hoist",
         "clean": "lerna clean --yes && node scripts/clean.js",
-        "publish": "lerna publish",
+        "publish": "lerna publish --dist-tag preview",
         "stylelint": "stylelint packages/**/*.css",
         "test": "lerna run test",
         "test-ci": "lerna run test-ci",

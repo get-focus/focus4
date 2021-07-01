@@ -53,7 +53,7 @@
 }
 
 .body {
-    color: var(--color-text-secondary);
+    color: rgb(var(--color-text-secondary));
     flex-grow: 2;
     padding: var(--dialog-content-padding);
 
