@@ -1,6 +1,6 @@
 {
     "name": "@focus4/toolbox",
-    "version": "10.9.0",
+    "version": "11.0.0-preview.0",
     "description": "Focus v4, toolbox module",
     "main": "lib/focus4.toolbox.js",
     "repository": {
@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@focus4/core": "^10.9.0",
-        "@focus4/styling": "^10.9.0",
+        "@focus4/styling": "^11.0.0-preview.0",
         "@types/react-transition-group": "4.4.1",
         "moment": "2.29.1",
         "react-transition-group": "4.4.2"

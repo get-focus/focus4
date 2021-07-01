@@ -1,6 +1,6 @@
 {
     "name": "@focus4/styling",
-    "version": "10.9.0",
+    "version": "11.0.0-preview.0",
     "description": "Focus v4, styling module",
     "main": "lib/focus4.styling.js",
     "repository": {
