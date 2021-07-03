@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import {uniqueId} from "lodash";
 import {action, observable} from "mobx";
 import {observer} from "mobx-react";
@@ -6,25 +5,32 @@ import moment from "moment-timezone";
 import {Component, KeyboardEvent} from "react";
 
 import {CSSProp, themr} from "@focus4/styling";
-import {Clock, IconButton, InputCss, timePickerCss, TimePickerCss} from "@focus4/toolbox";
+import {Clock, ClockCss, IconButton} from "@focus4/toolbox";
 
 import {Input, InputProps} from "./input";
 
-const Theme = themr("RTTimePicker", timePickerCss);
+import inputTimeCss, {InputTimeCss} from "./__style__/input-time.css";
+export {inputTimeCss};
 
-import inputDateCss from "./__style__/input-date.css";
+const Theme = themr("inputTime", inputTimeCss);
 
 /** Props de l'InputTime. */
-export interface InputTimeProps extends InputProps<"string"> {
+export interface InputTimeProps {
+    /** CSS pour le composant Clock. */
+    clockTheme?: CSSProp<ClockCss>;
     /** Composant affiché depuis la gauche ou la droite. */
     displayFrom?: "left" | "right";
-    /** Format de l'heure dans l'input. */
+    /** Format de la date dans l'input. */
     inputFormat?: string;
+    /** Props de l'input. */
+    inputProps?: Omit<InputProps<"string">, "mask" | "onChange" | "onKeyDown" | "onFocus" | "type" | "value">;
+    /** Appelé lorsque l'heure change. */
+    onChange: (time: string | undefined) => void;
     /** CSS. */
-    theme?: CSSProp<TimePickerCss & InputCss>;
+    theme?: CSSProp<InputTimeCss>;
     /** Valeur. */
     value: string | undefined;
-    /** Code Timezone que l'on souhaite appliquer au TimePicker dans le cas d'une Timezone différente de celle du navigateur (https://momentjs.com/timezone/) */
+    /** Code Timezone que l'on souhaite appliquer au InputTime dans le cas d'une Timezone différente de celle du navigateur (https://momentjs.com/timezone/) */
     timezoneCode?: string;
 }
 
@@ -184,11 +190,11 @@ export class InputTime extends Component<InputTimeProps> {
     }
 
     render() {
-        const {theme: pTheme, inputFormat = "HH:mm", displayFrom = "left", ...inputProps} = this.props;
+        const {theme: pTheme, inputFormat = "HH:mm", displayFrom = "left", inputProps = {}, clockTheme} = this.props;
         return (
             <Theme theme={pTheme}>
                 {theme => (
-                    <div data-focus="input-time" data-id={this._inputTimeId} className={inputDateCss.input}>
+                    <div data-focus="input-time" data-id={this._inputTimeId} className={theme.input()}>
                         <Input
                             {...inputProps}
                             {...{autoComplete: "off"}}
@@ -196,24 +202,21 @@ export class InputTime extends Component<InputTimeProps> {
                             onChange={value => (this.timeText = value)}
                             onKeyDown={this.handleKeyDown}
                             onFocus={() => (this.showClock = true)}
-                            theme={theme}
+                            type="string"
                             value={this.timeText || ""}
                         />
                         {this.showClock ? (
                             <div
                                 ref={clo => (this.clock = clo)}
-                                className={classNames(
-                                    inputDateCss.calendar,
-                                    theme.dialog(),
-                                    this.clockDisplay === "hours" ? theme.hoursDisplay() : theme.minutesDisplay(),
-                                    displayFrom === "right" ? inputDateCss.fromRight : "",
-                                    this.clockPosition === "up" ? inputDateCss.up : inputDateCss.down
-                                )}
+                                className={theme.clock({
+                                    [this.clockPosition ?? "down"]: true,
+                                    fromRight: displayFrom == "right"
+                                })}
                             >
                                 <header className={theme.header()}>
                                     <span
                                         id="hours"
-                                        className={theme.hours()}
+                                        className={theme.hours({selected: this.clockDisplay === "hours"})}
                                         onClick={() => (this.clockDisplay = "hours")}
                                     >
                                         {`0${this.time.hours()}`.slice(-2)}
@@ -221,27 +224,25 @@ export class InputTime extends Component<InputTimeProps> {
                                     <span className={theme.separator()}>:</span>
                                     <span
                                         id="minutes"
-                                        className={theme.minutes()}
+                                        className={theme.minutes({selected: this.clockDisplay === "minutes"})}
                                         onClick={() => (this.clockDisplay = "minutes")}
                                     >
                                         {`0${this.time.minutes()}`.slice(-2)}
                                     </span>
                                     <IconButton
                                         icon="clear"
-                                        theme={{toggle: inputDateCss.toggle}}
+                                        theme={{toggle: theme.toggle()}}
                                         onClick={() => (this.showClock = false)}
                                     />
                                 </header>
-                                <div className={classNames(theme.clockWrapper(), inputDateCss.clock)}>
-                                    <Clock
-                                        display={this.clockDisplay}
-                                        format="24hr"
-                                        onChange={this.onClockChange}
-                                        onHandMoved={this.onHandMoved}
-                                        theme={theme}
-                                        time={this.getTime()}
-                                    />
-                                </div>
+                                <Clock
+                                    display={this.clockDisplay}
+                                    format="24hr"
+                                    onChange={this.onClockChange}
+                                    onHandMoved={this.onHandMoved}
+                                    theme={clockTheme}
+                                    time={this.getTime()}
+                                />
                             </div>
                         ) : null}
                     </div>

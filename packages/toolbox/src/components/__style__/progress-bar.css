@@ -1,15 +1,17 @@
-.linear {
+.progressBar--linear {
     background: rgb(var(--color-divider));
     display: inline-block;
     height: var(--progress-height);
     overflow: hidden;
     position: relative;
     width: 100%;
+
+    &.progressBar--indeterminate .value {
+        animation: linearIndeterminate 1s linear infinite;
+        transform-origin: center center;
+    }
 }
-.linear.indeterminate .value {
-    animation: linearIndeterminate 1s linear infinite;
-    transform-origin: center center;
-}
+
 .value,
 .buffer {
     bottom: 0;
@@ -22,44 +24,55 @@
     transition-duration: var(--animation-duration);
     transition-timing-function: var(--animation-curve-default);
 }
+
 .value {
     background-color: var(--progress-main-color);
 }
+
 .buffer {
     background-image: linear-gradient(to right, var(--progress-secondary-color), var(--progress-secondary-color)),
         linear-gradient(to right, var(--progress-main-color), var(--progress-main-color));
 }
-.circular {
+
+.progressBar--circular {
     display: inline-block;
     height: calc(var(--circle-wrapper-width) * 1px);
     position: relative;
     transform: rotate(-90deg);
     width: calc(var(--circle-wrapper-width) * 1px);
+
+    &.progressBar--indeterminate {
+        & .circle {
+            animation: circularIndeterminateRotate 2s linear infinite;
+        }
+
+        & .path {
+            animation: circularIndeterminateDash 1.5s ease-in-out infinite;
+            stroke-dasharray: calc(var(--scale-ratio) * 1), calc(var(--scale-ratio) * 200);
+            stroke-dashoffset: 0;
+        }
+
+        &.progressBar--multicolor .path {
+            animation: circularIndeterminateDash 1.5s ease-in-out infinite, colors calc(1.5s * 4) ease-in-out infinite;
+        }
+    }
 }
-.circular.indeterminate .circle {
-    animation: circularIndeterminateRotate 2s linear infinite;
+
+.progressBar[disabled] {
+    & .value {
+        background-color: var(--progress-disabled-color);
+    }
+    & .buffer {
+        background-image: linear-gradient(to right, var(--progress-secondary-color), var(--progress-secondary-color)),
+            linear-gradient(to right, var(--progress-disabled-color), var(--progress-disabled-color));
+    }
 }
-.circular.indeterminate .path {
-    animation: circularIndeterminateDash 1.5s ease-in-out infinite;
-    stroke-dasharray: calc(var(--scale-ratio) * 1), calc(var(--scale-ratio) * 200);
-    stroke-dashoffset: 0;
-}
-.circular.indeterminate.multicolor .path {
-    animation: circularIndeterminateDash 1.5s ease-in-out infinite, colors calc(1.5s * 4) ease-in-out infinite;
-}
-.circular[disabled] .value,
-.linear[disabled] .value {
-    background-color: var(--progress-disabled-color);
-}
-.circular[disabled] .buffer,
-.linear[disabled] .buffer {
-    background-image: linear-gradient(to right, var(--progress-secondary-color), var(--progress-secondary-color)),
-        linear-gradient(to right, var(--progress-disabled-color), var(--progress-disabled-color));
-}
+
 .circle {
     height: 100%;
     width: 100%;
 }
+
 .path {
     fill: none;
     stroke: var(--progress-main-color);
@@ -70,6 +83,7 @@
     stroke-width: 4;
     transition: stroke-dasharray var(--animation-duration) var(--animation-curve-default);
 }
+
 @keyframes linearIndeterminate {
     0% {
         transform: translate(-50%) scaleX(0);
@@ -83,11 +97,13 @@
         transform: translate(50%) scaleX(0);
     }
 }
+
 @keyframes circularIndeterminateRotate {
     100% {
         transform: rotate(360deg);
     }
 }
+
 @keyframes circularIndeterminateDash {
     0% {
         stroke-dasharray: calc(var(--scale-ratio) * 1), calc(var(--scale-ratio) * 200);
@@ -104,6 +120,7 @@
         stroke-dashoffset: calc(var(--scale-ratio) * -124);
     }
 }
+
 @keyframes colors {
     0% {
         stroke: #4285f4;

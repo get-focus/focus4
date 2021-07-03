@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEventHandler, ReactNode, useEffect, useState} from "react";
 import {createPortal} from "react-dom";
 
@@ -34,13 +34,13 @@ export function Snackbar({
     action,
     active: pActive = false,
     children,
-    className: pClassName = "",
+    className = "",
     label,
     onClick,
     theme: pTheme,
     timeout = 0,
     onTimeout,
-    type
+    type = "accept"
 }: SnackbarProps) {
     const theme = useTheme("RTSnackbar", snackbarCss, pTheme);
     const [active, setActive] = useState(pActive);
@@ -65,15 +65,12 @@ export function Snackbar({
         }
     }, [pActive]);
 
-    const className = classnames(
-        [theme.snackbar(), type ? theme[type]() : undefined],
-        {[theme.active()]: active},
-        pClassName
-    );
-
     return rendered
         ? createPortal(
-              <div data-react-toolbox="snackbar" className={className}>
+              <div
+                  data-react-toolbox="snackbar"
+                  className={classNames(theme.snackbar({[type]: true, active}), className)}
+              >
                   <span className={theme.label()}>
                       {label}
                       {children}

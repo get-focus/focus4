@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import {MouseEventHandler, ReactNode, TouchEventHandler} from "react";
 
 import {ToBem} from "@focus4/styling";
@@ -24,7 +23,7 @@ export const Radio = rippleFactory({rippleCentered: true, rippleSpread: 2.6})(fu
     return (
         <div
             data-react-toolbox="radio"
-            className={classnames(theme.radio(), {[theme.radioChecked()]: checked})}
+            className={theme.radio({checked})}
             onMouseDown={onMouseDown}
             onTouchStart={onTouchStart}
         >

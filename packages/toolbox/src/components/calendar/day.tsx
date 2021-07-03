@@ -1,8 +1,7 @@
-import classnames from "classnames";
 import {useCallback, useMemo} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {DatePickerCss} from "../__style__/date-picker.css";
+import {CalendarCss} from "../__style__/calendar.css";
 
 export interface DayProps {
     day: number;
@@ -10,7 +9,7 @@ export interface DayProps {
     onClick: (day: number) => void;
     selectedDate: Date;
     sundayFirstDayOfWeek: boolean;
-    theme: ToBem<DatePickerCss>;
+    theme: ToBem<CalendarCss>;
     viewDate: Date;
 }
 
@@ -32,20 +31,15 @@ export function Day({day, disabled, onClick, selectedDate, sundayFirstDayOfWeek,
         return undefined;
     }, [day, sundayFirstDayOfWeek, viewDate]);
 
-    const isSelected = useMemo(() => {
+    const active = useMemo(() => {
         const sameYear = viewDate.getFullYear() === selectedDate.getFullYear();
         const sameMonth = viewDate.getMonth() === selectedDate.getMonth();
         const sameDay = day === selectedDate.getDate();
         return sameYear && sameMonth && sameDay;
     }, [day, selectedDate, viewDate]);
 
-    const className = classnames(theme.day(), {
-        [theme.active()]: isSelected,
-        [theme.disabled()]: disabled
-    });
-
     return (
-        <div data-react-toolbox="day" className={className} style={dayStyle}>
+        <div data-react-toolbox="day" className={theme.day({active, disabled})} style={dayStyle}>
             <span onClick={handleClick}>{day}</span>
         </div>
     );

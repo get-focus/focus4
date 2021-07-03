@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEvent, MouseEventHandler, ReactNode, TouchEventHandler, useCallback} from "react";
 
 import {FontIcon} from "../font-icon";
@@ -54,19 +54,10 @@ export const MenuItem = rippleFactory({})(function RTMenuItem({
         [disabled, onClick]
     );
 
-    const _className = classnames(
-        theme.menuItem(),
-        {
-            [theme.selected()]: selected,
-            [theme.disabled()]: disabled
-        },
-        className
-    );
-
     return (
         <li
             data-react-toolbox="menu-item"
-            className={_className}
+            className={classNames(theme.menuItem({disabled, selected}), className)}
             onClick={handleClick}
             onMouseDown={onMouseDown}
             onTouchStart={onTouchStart}

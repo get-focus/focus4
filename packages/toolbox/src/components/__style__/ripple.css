@@ -7,6 +7,7 @@
     top: 0;
     z-index: var(--z-index-normal);
 }
+
 .ripple {
     background-color: currentColor;
     border-radius: 50%;
@@ -18,15 +19,18 @@
     transition-duration: var(--ripple-duration);
     z-index: var(--z-index-high);
 }
-.ripple.rippleRestarting {
+
+.ripple--restarting {
     opacity: var(--ripple-final-opacity);
     transition-property: none;
 }
-.ripple.rippleActive {
+
+.ripple--active {
     opacity: var(--ripple-final-opacity);
     transition-property: transform;
 }
-.ripple:not(.rippleActive):not(.rippleRestarting) {
+
+.ripple:not(.ripple--active):not(.ripple--restarting) {
     opacity: 0;
     transition-property: opacity, transform;
 }

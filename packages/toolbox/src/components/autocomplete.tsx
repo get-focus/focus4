@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {toPairs} from "lodash";
 import {
     FocusEventHandler,
@@ -22,9 +22,9 @@ import autocompleteCss, {AutocompleteCss} from "./__style__/autocomplete.css";
 export {autocompleteCss, AutocompleteCss};
 
 import {Chip} from "./chip";
-import {Input, InputProps, InputCss} from "./input";
+import {Input, InputCss, InputProps} from "./input";
 
-export interface AutocompleteProps extends Omit<InputProps, "autoComplete" | "value"> {
+export interface AutocompleteProps extends Omit<InputProps, "autoComplete" | "theme" | "value"> {
     /** Determines if user can create a new option with the current typed value. */
     allowCreate?: boolean;
     /** Determines the opening direction. It can be auto, up or down. */
@@ -340,16 +340,7 @@ export const Autocomplete = forwardRef(function RTAutocomplete(
     }, [multiple, unselect, theme, values]);
 
     return (
-        <div
-            data-react-toolbox="autocomplete"
-            className={classnames(
-                theme.autocomplete(),
-                {
-                    [theme.focus()]: focus
-                },
-                className
-            )}
-        >
+        <div data-react-toolbox="autocomplete" className={classNames(theme.autocomplete({focus}), className)}>
             {selectedPosition === "above" ? renderSelected() : null}
             <Input
                 ref={inputRef}
@@ -387,24 +378,21 @@ export const Autocomplete = forwardRef(function RTAutocomplete(
                 rows={rows}
                 style={style}
                 type={type}
-                theme={theme}
+                theme={theme as CSSProp<InputCss>}
                 value={query}
             />
-            <ul className={classnames(theme.suggestions(), {[theme.up()]: direction === "up"})}>
-                {toPairs(suggestions).map(([key, val]) => {
-                    const _className = classnames(theme.suggestion(), {[theme.active()]: active === key});
-                    return (
-                        <li
-                            id={key}
-                            key={key}
-                            className={_className}
-                            onMouseDown={selectOrCreateActiveItem}
-                            onMouseOver={event => setActive(event.currentTarget.id)}
-                        >
-                            {val}
-                        </li>
-                    );
-                })}
+            <ul className={theme.suggestions({up: direction === "up"})}>
+                {toPairs(suggestions).map(([key, val]) => (
+                    <li
+                        id={key}
+                        key={key}
+                        className={theme.suggestion({active: active === key})}
+                        onMouseDown={selectOrCreateActiveItem}
+                        onMouseOver={event => setActive(event.currentTarget.id)}
+                    >
+                        {val}
+                    </li>
+                ))}
             </ul>
             {selectedPosition === "below" ? renderSelected() : null}
         </div>

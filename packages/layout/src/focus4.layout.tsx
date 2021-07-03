@@ -3,10 +3,12 @@ import {
     AutocompleteCss,
     AvatarCss,
     ButtonCss,
+    CalendarCss,
     CheckboxCss,
     ChipCss,
-    DatePickerCss,
+    ClockCss,
     DropdownCss,
+    IconButtonCss,
     InputCss,
     MenuCss,
     ProgressBarCss,
@@ -16,7 +18,6 @@ import {
     SnackbarCss,
     SwitchCss,
     TabsCss,
-    TimePickerCss,
     TooltipCss
 } from "@focus4/toolbox";
 
@@ -78,6 +79,8 @@ export interface LayoutStyleProviderProps {
     form?: {};
     group?: {};
     header?: CSSProp<HeaderCss>;
+    inputDate?: {};
+    inputTime?: {};
     label?: {};
     layout?: CSSProp<LayoutCss>;
     loadingBar?: CSSProp<LoadingBarCss>;
@@ -100,10 +103,12 @@ export interface LayoutStyleProviderProps {
     RTAutocomplete?: CSSProp<AutocompleteCss>;
     RTAvatar?: CSSProp<AvatarCss>;
     RTButton?: CSSProp<ButtonCss>;
+    RTCalendar?: CSSProp<CalendarCss>;
     RTCheckbox?: CSSProp<CheckboxCss>;
     RTChip?: CSSProp<ChipCss>;
-    RTDatePicker?: CSSProp<DatePickerCss>;
+    RTClock?: CSSProp<ClockCss>;
     RTDropdown?: CSSProp<DropdownCss>;
+    RTIconButton?: CSSProp<IconButtonCss>;
     RTInput?: CSSProp<InputCss>;
     RTMenu?: CSSProp<MenuCss>;
     RTProgressBar?: CSSProp<ProgressBarCss>;
@@ -113,7 +118,6 @@ export interface LayoutStyleProviderProps {
     RTSnackbar?: CSSProp<SnackbarCss>;
     RTSwitch?: CSSProp<SwitchCss>;
     RTTabs?: CSSProp<TabsCss>;
-    RTTimePicker?: CSSProp<TimePickerCss>;
     RTTooltip?: CSSProp<TooltipCss>;
 }
 

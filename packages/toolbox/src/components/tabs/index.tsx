@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     Children,
     cloneElement,
@@ -146,10 +146,8 @@ export function Tabs({
         return {headers, contents};
     }, [children]);
 
-    const classNames = classnames(theme.tabs(), {[theme.fixed()]: fixed, [theme.inverse()]: inverse}, className);
-
     return (
-        <div data-react-toolbox="tabs" className={classNames}>
+        <div data-react-toolbox="tabs" className={classNames(theme.tabs({fixed, inverse}), className)}>
             <div className={theme.navigationContainer()}>
                 {arrows.left && (
                     <div className={theme.arrowContainer()} onClick={scrollRight}>

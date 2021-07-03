@@ -1,11 +1,10 @@
 import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {TimePickerCss} from "../__style__/time-picker.css";
+import {ClockCss} from "../__style__/clock.css";
 
 export interface HandProps {
     angle: number;
-    className?: string;
     length: number;
     onMove: (angle: number, radius: number) => void;
     onMoved?: () => void;
@@ -13,8 +12,9 @@ export interface HandProps {
         x: number;
         y: number;
     };
+    small?: boolean;
     step: number;
-    theme: ToBem<TimePickerCss>;
+    theme: ToBem<ClockCss>;
 }
 
 export interface HandRef {
@@ -23,7 +23,7 @@ export interface HandRef {
 }
 
 export const Hand = forwardRef<HandRef, HandProps>(function RTHand(
-    {angle, className = "", length = 0, onMove, onMoved, origin, step, theme},
+    {angle, length = 0, onMove, onMoved, origin, small, step, theme},
     ref
 ) {
     const [knobWidth, setKnobWidth] = useState(0);
@@ -110,14 +110,13 @@ export const Hand = forwardRef<HandRef, HandProps>(function RTHand(
         }
     }, [move, onMoved, touched]);
 
-    const _className = `${theme.hand()} ${className}`;
     const handStyle = {
         height: length - knobWidth / 2,
         transform: `rotate(${angle}deg)`
     };
 
     return (
-        <div className={_className} style={handStyle}>
+        <div className={theme.hand({small})} style={handStyle}>
             <div ref={knobNode} className={theme.knob()} />
         </div>
     );

@@ -3,7 +3,7 @@ import moment from "moment";
 import {useCallback, useMemo} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {DatePickerCss} from "../__style__/date-picker.css";
+import {CalendarCss} from "../__style__/calendar.css";
 
 import {Day} from "./day";
 
@@ -15,7 +15,7 @@ export interface MonthProps {
     onDayClick: (day: number) => void;
     selectedDate: Date;
     sundayFirstDayOfWeek: boolean;
-    theme: ToBem<DatePickerCss>;
+    theme: ToBem<CalendarCss>;
     viewDate: Date;
 }
 

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     FocusEvent,
     FocusEventHandler,
@@ -71,7 +71,7 @@ export function Dropdown<
 >({
     allowBlank = true,
     auto = true,
-    className: pClassName,
+    className,
     disabled = false,
     error,
     id,
@@ -171,14 +171,8 @@ export function Dropdown<
 
     const renderTemplateValue = useCallback(
         (sel: S) => {
-            const _className = classnames(theme.field(), {
-                [theme.errored()]: error,
-                [theme.disabled()]: disabled,
-                [theme.required()]: required
-            });
-
             return (
-                <div className={_className} onClick={handleClick}>
+                <div className={theme.field({disabled, errored: !!error})} onClick={handleClick}>
                     <div className={`${theme.templateValue()} ${theme.value()}`}>{template!(sel)}</div>
                     {label ? (
                         <label className={theme.label()}>
@@ -195,14 +189,10 @@ export function Dropdown<
 
     const renderValue = useCallback(
         (item: S, idx: number) => {
-            const _className = classnames({
-                [theme.selected()]: item[valueKey] === value,
-                [theme.disabled()]: (item as any).disabled
-            });
             return (
                 <li
                     key={idx}
-                    className={_className}
+                    className={theme.value({disabled: (item as any).disabled, selected: item[valueKey] === value})}
                     onMouseDown={!(item as any).disabled ? event => handleSelect(item[valueKey]!, event) : undefined}
                 >
                     {template ? template(item) : item[labelKey]}
@@ -221,35 +211,23 @@ export function Dropdown<
         return !allowBlank ? source[0] : undefined;
     }, [allowBlank, source, value]);
 
-    const className = classnames(
-        theme.dropdown(),
-        {
-            [theme.up()]: up,
-            [theme.active()]: active,
-            [theme.disabled()]: disabled,
-            [theme.required()]: required
-        },
-        pClassName
-    );
-
     return (
         <div
             ref={domNode}
-            className={className}
+            className={classNames(theme.dropdown({active, disabled, up}), className)}
             data-react-toolbox="dropdown"
             onBlur={handleBlur}
             onFocus={handleFocus}
             tabIndex={-1}
         >
             <Input
-                className={theme.value()}
+                className={theme.input()}
                 id={id}
                 name={name}
                 onClick={handleClick}
                 readOnly
                 required={required}
                 tabIndex={0}
-                theme={theme}
                 type={template && selected ? "hidden" : undefined}
                 value={selected && selected[labelKey] ? selected[labelKey] : ""}
             />

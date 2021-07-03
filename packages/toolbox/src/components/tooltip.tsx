@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import {Component, ComponentType, forwardRef, MouseEvent, MouseEventHandler, ReactNode, TouchEventHandler} from "react";
 import {createPortal} from "react-dom";
 
@@ -16,7 +15,6 @@ const POSITION = {
 } as const;
 
 export interface TooltipOptions {
-    className?: string;
     tooltipDelay?: number;
     tooltipHideOnClick?: boolean;
     tooltipPassthrough?: boolean;
@@ -37,7 +35,6 @@ export interface TooltipProps extends Omit<TooltipOptions, "theme"> {
 }
 
 export function tooltipFactory({
-    className = "",
     tooltipDelay = 0,
     tooltipHideOnClick = true,
     tooltipPassthrough = true,
@@ -51,7 +48,6 @@ export function tooltipFactory({
             return (
                 <TooltippedComponent
                     ref={ref}
-                    className={className}
                     tooltipDelay={tooltipDelay}
                     tooltipHideOnClick={tooltipHideOnClick}
                     tooltipPassthrough={tooltipPassthrough}
@@ -200,10 +196,8 @@ class TooltippedComponent<P> extends Component<
 
     render() {
         const {active, left, top, position, visible} = this.state;
-        const positionClass = `tooltip${position.charAt(0).toUpperCase() + position.slice(1)}`;
         const {
             children,
-            className,
             tooltipTheme: tTheme,
             onClick,
             onMouseEnter,
@@ -218,17 +212,8 @@ class TooltippedComponent<P> extends Component<
             ...other
         } = this.props;
 
-        const _className = classnames(
-            tTheme.tooltip(),
-            {
-                [tTheme.tooltipActive()]: active
-            },
-            (tTheme as any)[positionClass]?.()
-        );
-
         const childProps = {
             ...other,
-            className,
             onClick: this.handleClick,
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave
@@ -246,7 +231,7 @@ class TooltippedComponent<P> extends Component<
                               ref={node => {
                                   this.tooltipNode = node;
                               }}
-                              className={_className}
+                              className={tTheme.tooltip({active, [position]: true})}
                               data-react-toolbox="tooltip"
                               style={{top, left}}
                           >

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {CSSProperties, MouseEvent, MouseEventHandler, ReactNode, useCallback, useRef} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -62,7 +62,7 @@ export function Checkbox({
     return (
         <label
             data-react-toolbox="checkbox"
-            className={classnames(theme.field(), {[theme.disabled()]: disabled}, className)}
+            className={classNames(theme.field({disabled}), className)}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >

@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import {omit} from "lodash";
 import {
     Component,
@@ -283,17 +282,13 @@ export class RippledComponent<P> extends Component<
     }
 
     renderRipple(key: string, {active, left, restarting, top, width}: RippleEntry) {
-        const {rippleTheme: rTheme} = this.props;
+        const {rippleTheme: theme} = this.props;
         const scale = restarting ? 0 : 1;
         const transform = `translate3d(${-width / 2 + left}px, ${-width / 2 + top}px, 0) scale(${scale})`;
-        const _className = classnames(rTheme.ripple(), {
-            [rTheme.rippleActive()]: active,
-            [rTheme.rippleRestarting()]: restarting
-        });
         return (
-            <span key={key} data-react-toolbox="ripple" className={rTheme.rippleWrapper()}>
+            <span key={key} data-react-toolbox="ripple" className={theme.rippleWrapper()}>
                 <span
-                    className={_className}
+                    className={theme.ripple({active, restarting})}
                     ref={node => {
                         if (node) {
                             this.rippleNodes[key] = node;
@@ -315,7 +310,7 @@ export class RippledComponent<P> extends Component<
             rippleMultiple,
             ripplePassthrough,
             rippleSpread,
-            rippleTheme: rTheme,
+            rippleTheme: theme,
             ComposedComponent,
             ...other
         } = this.props;

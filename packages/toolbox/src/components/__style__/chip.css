@@ -14,28 +14,33 @@
     white-space: nowrap;
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
 }
-.chip *,
-.chip *::after,
-.chip *::before {
-    box-sizing: border-box;
-}
-.avatar {
+
+.chip--avatar {
     padding-left: 0;
+
+    & > [data-react-toolbox="avatar"] {
+        height: var(--chip-height);
+        margin-right: var(--chip-icon-margin-right);
+        vertical-align: middle;
+        width: var(--chip-height);
+    }
+    & > [data-react-toolbox="avatar"] > span {
+        font-size: var(--chip-icon-font-size);
+        line-height: var(--chip-height);
+    }
 }
-.avatar > [data-react-toolbox="avatar"] {
-    height: var(--chip-height);
-    margin-right: var(--chip-icon-margin-right);
-    vertical-align: middle;
-    width: var(--chip-height);
-}
-.avatar > [data-react-toolbox="avatar"] > span {
-    font-size: var(--chip-icon-font-size);
-    line-height: var(--chip-height);
-}
-.deletable {
+
+.chip--deletable {
     padding-right: calc(var(--chip-remove-size) + 2 * var(--chip-remove-margin));
 }
+
 .delete {
     cursor: pointer;
     display: inline-block;
@@ -45,17 +50,20 @@
     position: absolute;
     right: 0;
     width: var(--chip-remove-size);
+
+    &:hover .deleteIcon {
+        background: var(--chip-remove-background-hover);
+    }
 }
-.delete:hover .deleteIcon {
-    background: var(--chip-remove-background-hover);
-}
+
 .deleteIcon {
     background: var(--chip-remove-background);
     border-radius: var(--chip-remove-size);
     vertical-align: top;
-}
-.deleteIcon .deleteX {
-    fill: transparent;
-    stroke: var(--chip-remove-color);
-    stroke-width: var(--chip-remove-stroke-width);
+
+    & .deleteX {
+        fill: transparent;
+        stroke: var(--chip-remove-color);
+        stroke-width: var(--chip-remove-stroke-width);
+    }
 }

@@ -6,18 +6,22 @@
     width: calc(100% - var(--slider-knob-size));
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
+
+    &:not(:last-child) {
+        margin-right: calc(var(--slider-side-separation) + var(--slider-knob-size));
+    }
+
+    &:not(:first-child) {
+        margin-left: var(--slider-side-separation);
+    }
 }
-.container *,
-.container *::after,
-.container *::before {
-    box-sizing: border-box;
-}
-.container:not(:last-child) {
-    margin-right: calc(var(--slider-side-separation) + var(--slider-knob-size));
-}
-.container:not(:first-child) {
-    margin-left: var(--slider-side-separation);
-}
+
 .knob {
     align-items: center;
     background-color: transparent;
@@ -31,6 +35,7 @@
     width: var(--slider-knob-size);
     z-index: var(--z-index-higher);
 }
+
 .innerknob {
     background-color: var(--slider-main-color);
     border-radius: 50%;
@@ -41,6 +46,7 @@
     width: var(--slider-inner-knob-size);
     z-index: var(--z-index-high);
 }
+
 .snaps {
     display: flex;
     flex-direction: row;
@@ -50,49 +56,58 @@
     position: absolute;
     top: calc(var(--slider-knob-size) / 2 - var(--slider-snap-size) / 2);
     width: calc(100% + var(--slider-snap-size));
+
+    &::after {
+        background-color: var(--slider-snap-color);
+        border-radius: 50%;
+        content: "";
+        display: block;
+        height: var(--slider-snap-size);
+        width: var(--slider-snap-size);
+    }
 }
-.snaps::after {
-    background-color: var(--slider-snap-color);
-    border-radius: 50%;
-    content: "";
-    display: block;
-    height: var(--slider-snap-size);
-    width: var(--slider-snap-size);
-}
+
 .snap {
     flex: 1;
+
+    &::after {
+        background-color: var(--slider-snap-color);
+        border-radius: 50%;
+        content: "";
+        display: block;
+        height: var(--slider-snap-size);
+        width: var(--slider-snap-size);
+    }
 }
-.snap::after {
-    background-color: var(--slider-snap-color);
-    border-radius: 50%;
-    content: "";
-    display: block;
-    height: var(--slider-snap-size);
-    width: var(--slider-snap-size);
-}
+
 .input {
     margin-bottom: 0;
     padding: 0;
     width: var(--slider-input-width);
+
+    & > input {
+        text-align: center;
+    }
 }
-.input > input {
-    text-align: center;
-}
+
 .progress {
     height: 100%;
     left: calc(var(--slider-knob-size) / 2);
     position: absolute;
     top: 0;
     width: 100%;
+
+    & .innerprogress {
+        height: var(--slider-bar-height);
+        position: absolute;
+        top: calc(var(--slider-knob-size) / 2 - var(--slider-bar-height) / 2);
+
+        & [data-ref="value"] {
+            transition-duration: 0s;
+        }
+    }
 }
-.progress .innerprogress {
-    height: var(--slider-bar-height);
-    position: absolute;
-    top: calc(var(--slider-knob-size) / 2 - var(--slider-bar-height) / 2);
-}
-.progress .innerprogress [data-ref="value"] {
-    transition-duration: 0s;
-}
+
 .slider:focus .knob::before {
     background-color: var(--slider-main-color);
     border-radius: 50%;
@@ -105,77 +120,102 @@
     top: 0;
     z-index: var(--z-index-normal);
 }
+
 .slider[disabled] {
     cursor: auto;
     pointer-events: none;
+
+    & .innerknob {
+        background-color: var(--slider-disabled-color);
+    }
 }
-.slider[disabled] .innerknob {
-    background-color: var(--slider-disabled-color);
-}
-.slider.editable {
+
+.slider--editable {
     align-items: center;
     display: flex;
     flex-direction: row;
 }
-.slider.pinned .innerknob::before {
-    background-color: var(--slider-main-color);
-    border-radius: 50% 50% 50% 0;
-    content: "";
-    height: var(--slider-pin-size);
-    left: 0;
-    margin-left: calc((var(--slider-knob-size) - var(--slider-pin-size)) / 2);
-    position: absolute;
-    top: 0;
-    transform: rotate(-45deg) scale(0) translate(0);
-    transition: transform 0.2s ease, background-color 0.18s ease;
-    width: var(--slider-pin-size);
+
+.slider--pinned {
+    &.innerknob::before {
+        background-color: var(--slider-main-color);
+        border-radius: 50% 50% 50% 0;
+        content: "";
+        height: var(--slider-pin-size);
+        left: 0;
+        margin-left: calc((var(--slider-knob-size) - var(--slider-pin-size)) / 2);
+        position: absolute;
+        top: 0;
+        transform: rotate(-45deg) scale(0) translate(0);
+        transition: transform 0.2s ease, background-color 0.18s ease;
+        width: var(--slider-pin-size);
+    }
+
+    .innerknob::after {
+        color: rgb(var(--color-background));
+        content: attr(data-value);
+        font-size: 10px;
+        height: var(--slider-pin-size);
+        left: 0;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        transform: scale(0) translate(0);
+        transition: transform 0.2s ease, background-color 0.18s ease;
+        width: var(--slider-knob-size);
+    }
 }
-.slider.pinned .innerknob::after {
-    color: rgb(var(--color-background));
-    content: attr(data-value);
-    font-size: 10px;
-    height: var(--slider-pin-size);
-    left: 0;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    transform: scale(0) translate(0);
-    transition: transform 0.2s ease, background-color 0.18s ease;
-    width: var(--slider-knob-size);
+
+.slider--pressed.slider--pinned {
+    & .innerknob::before {
+        transform: rotate(-45deg) scale(1)
+            translate(var(--slider-pin-elevation), calc(-1 * var(--slider-pin-elevation)));
+        transition-delay: 100ms;
+    }
+
+    & .innerknob::after {
+        transform: scale(1) translate(0, calc(-1 * var(--slider-pin-elevation)));
+        transition-delay: 100ms;
+    }
 }
-.slider.pressed.pinned .innerknob::before {
-    transform: rotate(-45deg) scale(1) translate(var(--slider-pin-elevation), calc(-1 * var(--slider-pin-elevation)));
-    transition-delay: 100ms;
+
+.slider--pressed:not(.slider--pinned) {
+    &.slider--ring .progress {
+        left: calc(var(--slider-knob-size) / 2 + (var(--slider-knob-size) - var(--slider-empty-knob-border) * 2) / 2);
+        width: calc(100% - ((var(--slider-knob-size) - var(--slider-empty-knob-border) * 2) / 2));
+    }
+
+    & .innerknob {
+        height: 100%;
+        transform: translateZ(0);
+        width: 100%;
+    }
 }
-.slider.pressed.pinned .innerknob::after {
-    transform: scale(1) translate(0, calc(-1 * var(--slider-pin-elevation)));
-    transition-delay: 100ms;
-}
-.slider.pressed:not(.pinned).ring .progress {
-    left: calc(var(--slider-knob-size) / 2 + (var(--slider-knob-size) - var(--slider-empty-knob-border) * 2) / 2);
-    width: calc(100% - ((var(--slider-knob-size) - var(--slider-empty-knob-border) * 2) / 2));
-}
-.slider.pressed:not(.pinned) .innerknob {
-    height: 100%;
-    transform: translateZ(0);
-    width: 100%;
-}
-.slider.ring .innerknob {
-    background-color: transparent;
-    border: var(--slider-empty-knob-border) solid rgb(var(--color-divider));
-}
-.slider.ring .innerknob::before {
-    background-color: var(--slider-main-color);
-}
-.slider.ring .progress {
-    left: calc(var(--slider-knob-size) / 2 + var(--slider-empty-knob-border) * 2);
-    transition: left 0.18s ease, width 0.18s ease;
-    width: calc(100% - var(--slider-empty-knob-border) * 2);
-}
-.slider.ring.pinned .innerknob {
-    background-color: rgb(var(--color-background));
-}
-.slider.ring.pinned .progress {
-    left: calc(var(--slider-knob-size) / 2);
-    width: 100%;
+
+.slider--ring {
+    & .innerknob {
+        background-color: transparent;
+        border: var(--slider-empty-knob-border) solid rgb(var(--color-divider));
+
+        &::before {
+            background-color: var(--slider-main-color);
+        }
+    }
+
+    & .progress {
+        left: calc(var(--slider-knob-size) / 2 + var(--slider-empty-knob-border) * 2);
+        transition: left 0.18s ease, width 0.18s ease;
+        width: calc(100% - var(--slider-empty-knob-border) * 2);
+    }
+
+    &.slider--pinned {
+        & .innerknob {
+            background-color: rgb(var(--color-background));
+        }
+
+        & .progress {
+            left: calc(var(--slider-knob-size) / 2);
+            width: 100%;
+        }
+    }
 }

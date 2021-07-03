@@ -15,11 +15,11 @@ input[type="search"]::-webkit-search-results-decoration {
     padding: 0;
 }
 
-.suggestions:not(.up) {
+.suggestions:not(.suggestions--up) {
     margin-top: -5px;
 }
 
-.suggestions.up {
+.suggestions--up {
     bottom: 60px;
 }
 

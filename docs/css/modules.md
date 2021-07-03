@@ -87,7 +87,7 @@ function Panel({tPos = "left"}: {tPos: "left" | "center" | "right"}) {
 En utilisant une librairie comme [`classnames`](https://github.com/JedWatson/classnames), on pourrait faire plus propre, mais cela reste encore assez verbeux :
 
 ```tsx
-import classnames from "classnames";
+import classNames from "classnames";
 import panelCss from "./panel.css";
 
 function Panel({tPos = "left"}: {tPos: "left" | "center" | "right"}) {

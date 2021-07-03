@@ -1,0 +1,120 @@
+.toggle {
+    align-content: center;
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    flex-direction: row;
+    font-size: calc(1.4 * var(--unit));
+    font-weight: 500;
+    height: var(--button-height);
+    justify-content: center;
+    letter-spacing: 0;
+    line-height: var(--button-height);
+    outline: none;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.2s var(--animation-curve-fast-out-linear-in),
+        background-color 0.2s var(--animation-curve-default), color 0.2s var(--animation-curve-default);
+    white-space: nowrap;
+    box-sizing: border-box;
+    font-family: var(--preferred-font);
+    background: transparent;
+    border-radius: 50%;
+    vertical-align: middle;
+    width: var(--button-height);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
+
+    & > input {
+        height: 0.1px;
+        margin: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 0.1px;
+        z-index: 0;
+    }
+
+    & > span:not([data-react-toolbox="tooltip"]) {
+        display: inline-block;
+        line-height: var(--button-height);
+        vertical-align: middle;
+    }
+
+    & > .icon,
+    & > svg {
+        font-size: var(--button-toggle-font-size);
+        line-height: var(--button-height);
+        vertical-align: top;
+    }
+
+    & > svg {
+        display: inline-block;
+        fill: currentColor;
+        font-size: 120%;
+        height: var(--button-height);
+        vertical-align: top;
+        width: 1em;
+    }
+
+    & > * {
+        pointer-events: none;
+    }
+
+    & > .rippleWrapper {
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    &[disabled] {
+        color: var(--button-disabled-text-color);
+        cursor: auto;
+        pointer-events: none;
+    }
+}
+
+.toggle--primary:not([disabled]) {
+    color: var(--button-primary-color);
+
+    &:focus:not(:active) {
+        background: var(--button-primary-color-hover);
+    }
+}
+
+.toggle--accent:not([disabled]) {
+    color: var(--button-accent-color);
+
+    &:focus:not(:active) {
+        background: var(--button-accent-color-hover);
+    }
+}
+
+.toggle--neutral:not([disabled]) {
+    color: var(--button-neutral-color-contrast);
+
+    &:focus:not(:active) {
+        background: var(--button-neutral-color-hover);
+    }
+
+    &.toggle--inverse {
+        color: var(--button-neutral-color);
+
+        &:focus:not(:active) {
+            background: var(--button-neutral-color-hover);
+        }
+
+        &[disabled] {
+            background-color: var(--button-disabled-background-inverse);
+            color: var(--button-disabled-text-color-inverse);
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEvent, MouseEventHandler, ReactNode, TouchEventHandler, useCallback, useEffect} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -10,8 +10,6 @@ import {rippleFactory} from "../ripple";
 export interface TabProps {
     /** If true, the current component is visible. */
     active?: boolean;
-    /** Additional class name to provide custom styling for the active tab. */
-    activeClassName?: string;
     children?: ReactNode;
     className?: string;
     /** If true, the current component is not clickable. */
@@ -34,7 +32,6 @@ export interface TabProps {
 
 export const Tab = rippleFactory({theme: {rippleWrapper: tabsCss.rippleWrapper}})(function RTTab({
     active = false,
-    activeClassName = "",
     className = "",
     children,
     disabled = false,
@@ -49,18 +46,6 @@ export const Tab = rippleFactory({theme: {rippleWrapper: tabsCss.rippleWrapper}}
     theme: pTheme
 }: TabProps) {
     const theme = useTheme("RTTabs", tabsCss, pTheme);
-    const _className = classnames(
-        theme.label(),
-        {
-            [theme.active()]: active,
-            [theme.hidden()]: hidden,
-            [theme.withText()]: label,
-            [theme.withIcon()]: icon,
-            [theme.disabled()]: disabled,
-            [activeClassName]: active
-        },
-        className
-    );
 
     useEffect(() => {
         if (active) {
@@ -82,7 +67,7 @@ export const Tab = rippleFactory({theme: {rippleWrapper: tabsCss.rippleWrapper}}
             data-react-toolbox="tab"
             role="tab"
             tabIndex={0}
-            className={_className}
+            className={classNames(theme.label({active, disabled, hidden, withIcon: !!icon}), className)}
             onClick={handleClick}
             onMouseDown={onMouseDown}
             onTouchStart={onTouchStart}

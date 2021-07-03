@@ -12,7 +12,11 @@ const configs = [
     {
         input: "src/focus4.styling.ts",
         // @ts-ignore
-        plugins: [typescript({abortOnError: false}), postcss({extract: true}), abortOnError],
+        plugins: [
+            typescript({abortOnError: false}),
+            postcss({extract: true, plugins: [postcssImport()]}),
+            abortOnError
+        ],
         treeshake: {
             moduleSideEffects: false
         },
@@ -21,12 +25,6 @@ const configs = [
             file: pkg.main
         },
         external: [...Object.keys(pkg.dependencies || {}), "i18next", "lodash", "react", "react/jsx-runtime", "tslib"],
-        onwarn
-    },
-    {
-        input: "src/variables/index.css",
-        output: {file: "lib/variables.css"},
-        plugins: [postcss({extract: true, plugins: [postcssImport()]})],
         onwarn
     },
     {

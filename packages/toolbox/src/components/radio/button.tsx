@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEvent, MouseEventHandler, ReactNode, useCallback, useRef} from "react";
 
 import {Radio} from "./radio";
@@ -62,7 +62,7 @@ export function RadioButton({
     return (
         <label
             data-react-toolbox="radio"
-            className={classnames(theme.field(), {[theme.disabled()]: disabled}, className)}
+            className={classNames(theme.field({disabled}), className)}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
@@ -77,7 +77,7 @@ export function RadioButton({
                 ref={inputNode}
                 type="radio"
             />
-            <Radio checked={checked} disabled={disabled} theme={theme} />
+            <Radio checked={checked} disabled={disabled} rippleTheme={{ripple: theme.ripple()}} theme={theme} />
             {label ? (
                 <span data-react-toolbox="label" className={theme.text()}>
                     {label}

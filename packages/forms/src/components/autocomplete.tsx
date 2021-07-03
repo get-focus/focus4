@@ -53,7 +53,7 @@ export interface AutocompleteProps<T extends "string" | "number">
     value: (T extends "string" ? string : number) | undefined;
 }
 
-/** Surtouche de l'Autocomplete React-Toolbox pour utilisation des services de recherche serveur. */
+/** Surcouche de l'Autocomplete React-Toolbox pour utilisation des services de recherche serveur. */
 @observer
 export class Autocomplete<T extends "string" | "number"> extends Component<AutocompleteProps<T>> {
     protected inputElement!: HTMLInputElement | null;
@@ -218,7 +218,11 @@ export class Autocomplete<T extends "string" | "number"> extends Component<Autoc
                             theme={theme}
                         />
                         {this.isLoading ? (
-                            <ProgressBar type="linear" mode="indeterminate" theme={{linear: theme.progressBar()}} />
+                            <ProgressBar
+                                type="linear"
+                                mode="indeterminate"
+                                theme={{progressBar: theme.progressBar()}}
+                            />
                         ) : null}
                     </div>
                 )}

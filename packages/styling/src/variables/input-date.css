@@ -1,4 +1,8 @@
 :root {
+    --input-date-inactive-opacity: 0.6;
+    --input-date-primary-color: rgb(var(--color-primary));
+    --input-date-primary-contrast-color: rgb(var(--color-primary-contrast));
     --input-date-shadow: var(--shadow-4p);
     --input-date-width: 330px;
+    --input-date-year-font-size: var(--font-size-small);
 }

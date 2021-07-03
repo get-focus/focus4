@@ -5,12 +5,14 @@
     white-space: normal;
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
 }
-.field *,
-.field *::after,
-.field *::before {
-    box-sizing: border-box;
-}
+
 .text {
     color: var(--switch-text-color);
     display: inline-block;
@@ -20,6 +22,7 @@
     vertical-align: top;
     white-space: nowrap;
 }
+
 .thumb {
     border-radius: 50%;
     cursor: pointer;
@@ -30,14 +33,15 @@
     transition-property: left;
     transition-timing-function: var(--animation-curve-default);
     width: var(--switch-thumb-size);
+
+    & .ripple {
+        background-color: var(--switch-color);
+        opacity: 0.3;
+        transition-duration: var(--switch-ripple-duration);
+    }
 }
-.thumb .ripple {
-    background-color: var(--switch-color);
-    opacity: 0.3;
-    transition-duration: var(--switch-ripple-duration);
-}
-.on,
-.off {
+
+.container {
     border-radius: var(--switch-track-height);
     cursor: pointer;
     display: inline-block;
@@ -47,63 +51,80 @@
     vertical-align: top;
     width: var(--switch-track-length);
 }
-.on {
+
+.container--on {
     background: var(--switch-track-on-color);
+
+    & .thumb {
+        background: var(--switch-thumb-on-color);
+        box-shadow: var(--shadow-3p);
+        left: calc(var(--switch-track-length) - var(--switch-thumb-size));
+    }
 }
-.on .thumb {
-    background: var(--switch-thumb-on-color);
-    box-shadow: var(--shadow-3p);
-    left: calc(var(--switch-track-length) - var(--switch-thumb-size));
-}
-.off {
+
+.container--off {
     background: var(--switch-track-off-color);
+
+    & .thumb {
+        background: var(--switch-thumb-off-color);
+        box-shadow: var(--shadow-2p);
+        left: 0;
+    }
+
+    & .ripple {
+        background: var(--switch-off-ripple-color);
+    }
 }
-.off .thumb {
-    background: var(--switch-thumb-off-color);
-    box-shadow: var(--shadow-2p);
-    left: 0;
-}
-.off .ripple {
-    background: var(--switch-off-ripple-color);
-}
+
 .input {
     height: 0;
     opacity: 0;
     overflow: hidden;
     width: 0;
 }
-.input:focus:not(:active) + .on > .thumb::before,
-.input:focus:not(:active) + .off > .thumb::before {
-    background-color: transparent;
-    border-radius: 50%;
-    box-sizing: border-box;
-    content: "";
-    display: inline-block;
-    height: var(--switch-focus-init-size);
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(calc(-1 * var(--switch-focus-init-size) / 2), calc(-1 * var(--switch-focus-init-size) / 2));
-    width: var(--switch-focus-init-size);
+
+.input:focus:not(:active) {
+    & + .container > .thumb::before {
+        background-color: transparent;
+        border-radius: 50%;
+        box-sizing: border-box;
+        content: "";
+        display: inline-block;
+        height: var(--switch-focus-init-size);
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(
+            calc(-1 * var(--switch-focus-init-size) / 2),
+            calc(-1 * var(--switch-focus-init-size) / 2)
+        );
+        width: var(--switch-focus-init-size);
+    }
+
+    & + .container--on > .thumb::before {
+        background-color: var(--switch-on-focus-color);
+        box-shadow: 0 0 0 var(--switch-focus-diff) var(--switch-on-focus-color);
+    }
+
+    & + .container--off > .thumb::before {
+        background-color: var(--switch-off-focus-color);
+        box-shadow: 0 0 0 var(--switch-focus-diff) var(--switch-off-focus-color);
+    }
 }
-.input:focus:not(:active) + .on > .thumb::before {
-    background-color: var(--switch-on-focus-color);
-    box-shadow: 0 0 0 var(--switch-focus-diff) var(--switch-on-focus-color);
-}
-.input:focus:not(:active) + .off > .thumb::before {
-    background-color: var(--switch-off-focus-color);
-    box-shadow: 0 0 0 var(--switch-focus-diff) var(--switch-off-focus-color);
-}
-.disabled .text {
-    color: var(--switch-disabled-text-color);
-}
-.disabled .on,
-.disabled .off {
-    background: var(--switch-disabled-track-color);
-    cursor: auto;
-}
-.disabled .thumb {
-    background-color: var(--switch-disabled-thumb-color);
-    border-color: transparent;
-    cursor: auto;
+
+.field--disabled {
+    & .text {
+        color: var(--switch-disabled-text-color);
+    }
+
+    & .container {
+        background: var(--switch-disabled-track-color);
+        cursor: auto;
+    }
+
+    & .thumb {
+        background-color: var(--switch-disabled-thumb-color);
+        border-color: transparent;
+        cursor: auto;
+    }
 }

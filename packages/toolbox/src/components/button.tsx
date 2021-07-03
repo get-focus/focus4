@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     createElement,
     CSSProperties,
@@ -37,8 +37,6 @@ export interface ButtonProps {
     label?: string;
     /** To be used with floating button. If true, the button will be smaller. */
     mini?: boolean;
-    /** Set it to false if you don't want the neutral styles to be included. */
-    neutral?: boolean;
     onClick?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
     onMouseDown?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
     onMouseEnter?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
@@ -69,7 +67,6 @@ export const Button = rippleFactory({theme: {rippleWrapper: buttonCss.rippleWrap
     inverse,
     label,
     mini = false,
-    neutral = true,
     onClick,
     onMouseDown,
     onMouseEnter,
@@ -103,25 +100,24 @@ export const Button = rippleFactory({theme: {rippleWrapper: buttonCss.rippleWrap
     );
 
     const element = href ? "a" : "button";
-    const level = primary ? "primary" : accent ? "accent" : "neutral";
-    const shape = raised ? "raised" : floating ? "floating" : "flat";
-
-    const classes = classnames(
-        theme.button(),
-        [theme[shape]()],
-        {
-            [theme.squared()]: shape != "floating",
-            [theme.solid()]: shape != "flat",
-            [theme[level]()]: neutral,
-            [theme.mini()]: mini,
-            [theme.inverse()]: inverse
-        },
-        className
-    );
 
     const props = {
         ref: buttonNode,
-        className: classes,
+        className: classNames(
+            theme.button({
+                accent,
+                flat: !raised && !floating,
+                floating,
+                inverse,
+                mini,
+                neutral: !primary && !accent,
+                primary,
+                raised,
+                solid: raised || floating,
+                squared: !floating
+            }),
+            className
+        ),
         disabled,
         href,
         onClick,

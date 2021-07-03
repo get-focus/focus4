@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     Children,
     cloneElement,
@@ -159,14 +159,6 @@ export function Menu({
     const rootStyle = useMemo(() => (position !== "static" ? {width, height} : undefined), [height, position, width]);
 
     const outlineStyle = {width, height};
-    const _className = classnames(
-        [theme.menu(), theme[position as "static"]()],
-        {
-            [theme.active()]: active,
-            [theme.rippled()]: rippled
-        },
-        className
-    );
 
     const items = useMemo(
         () =>
@@ -191,7 +183,12 @@ export function Menu({
     );
 
     return (
-        <div ref={rootNode} data-react-toolbox="menu" className={_className} style={rootStyle}>
+        <div
+            ref={rootNode}
+            data-react-toolbox="menu"
+            className={classNames(theme.menu({[position]: true, active, rippled}), className)}
+            style={rootStyle}
+        >
             {outline ? <div className={theme.outline()} style={outlineStyle} /> : null}
             <ul ref={menuNode} className={theme.menuInner()} style={menuStyle}>
                 {items}
