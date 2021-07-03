@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     createElement,
     CSSProperties,
@@ -11,8 +11,9 @@ import {
 } from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
+import iconButtonCss, {IconButtonCss} from "./__style__/icon-button.css";
+export {iconButtonCss, IconButtonCss};
 
-import {buttonCss, ButtonCss} from "./button";
 import {FontIcon} from "./font-icon";
 import {rippleFactory} from "./ripple";
 
@@ -29,8 +30,6 @@ export interface IconButtonProps {
     icon?: ReactNode;
     /** If true, the neutral colors are inverted. Useful to put a button over a dark background. */
     inverse?: boolean;
-    /** Set it to false if you don't want the neutral styles to be included. */
-    neutral?: boolean;
     onClick?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
     onMouseDown?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
     onMouseEnter?: MouseEventHandler<HTMLLinkElement | HTMLButtonElement>;
@@ -41,12 +40,12 @@ export interface IconButtonProps {
     primary?: boolean;
     style?: CSSProperties;
     target?: string;
-    theme?: CSSProp<ButtonCss>;
+    theme?: CSSProp<IconButtonCss>;
     /** Component root container type. */
     type?: string;
 }
 
-export const IconButton = rippleFactory({rippleCentered: true, theme: {rippleWrapper: buttonCss.rippleWrapper}})(
+export const IconButton = rippleFactory({rippleCentered: true, theme: {rippleWrapper: iconButtonCss.rippleWrapper}})(
     function RTIconButton({
         accent = false,
         children,
@@ -55,7 +54,6 @@ export const IconButton = rippleFactory({rippleCentered: true, theme: {rippleWra
         href,
         icon,
         inverse,
-        neutral = true,
         onClick,
         onMouseDown,
         onMouseEnter,
@@ -68,7 +66,7 @@ export const IconButton = rippleFactory({rippleCentered: true, theme: {rippleWra
         theme: pTheme,
         type = "button"
     }: IconButtonProps) {
-        const theme = useTheme("RTButton", buttonCss, pTheme);
+        const theme = useTheme("RTIconButton", iconButtonCss, pTheme);
         const buttonNode = useRef<HTMLLinkElement | HTMLButtonElement | null>(null);
 
         const handleMouseUp = useCallback(
@@ -88,19 +86,10 @@ export const IconButton = rippleFactory({rippleCentered: true, theme: {rippleWra
         );
 
         const element = href ? "a" : "button";
-        const level = primary ? "primary" : accent ? "accent" : "neutral";
-        const classes = classnames(
-            [theme.button(), theme.toggle()],
-            {
-                [theme[level]()]: neutral,
-                [theme.inverse()]: inverse
-            },
-            className
-        );
 
         const props = {
             ref: buttonNode,
-            className: classes,
+            className: classNames(theme.toggle({accent, inverse, neutral: !primary && !accent, primary}), className),
             disabled,
             href,
             onClick,

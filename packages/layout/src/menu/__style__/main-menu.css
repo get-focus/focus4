@@ -26,15 +26,15 @@
 }
 
 .button,
-.button.neutral:not([disabled]),
+.button.button--neutral:not([disabled]),
 .toggle,
-.toggle.neutral:not([disabled]) {
+.toggle.toggle--neutral:not([disabled]) {
     height: var(--main-menu-item-height);
     color: var(--main-menu-item-color);
     min-width: var(--main-menu-item-height);
 }
 
-.button:not(.toggle) {
+.button {
     text-align: left;
 }
 
@@ -52,8 +52,10 @@
     background: var(--main-menu-item-active-background);
 
     & .icon,
-    & .button.neutral:not([disabled]),
-    & .toggle {
+    & .button,
+    & .button.button--neutral:not([disabled]),
+    & .toggle,
+    & .toggle.toggle--neutral:not([disabled]) {
         color: var(--main-menu-item-active-color);
     }
 }

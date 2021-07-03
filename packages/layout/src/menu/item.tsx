@@ -4,14 +4,14 @@ import {MouseEvent as RMouseEvent, useCallback, useContext, useEffect, useRef} f
 import posed, {Transition} from "react-pose";
 
 import {CSSProp, defaultPose, useTheme} from "@focus4/styling";
-import {Button, ButtonProps, IconButton, RippleProps} from "@focus4/toolbox";
+import {Button, ButtonCss, ButtonProps, IconButton, IconButtonCss, IconButtonProps, RippleProps} from "@focus4/toolbox";
 
 import {MenuContext} from "./context";
 import {MainMenuList} from "./list";
 import {mainMenuCss, MainMenuCss} from "./style";
 
 /** Props du MenuItem. */
-export interface MainMenuItemProps extends Omit<ButtonProps & RippleProps, "theme"> {
+export interface MainMenuItemProps extends Omit<ButtonProps & IconButtonProps & RippleProps, "theme"> {
     /** La route associée, pour comparaison avec la route active. */
     route?: string;
     /** CSS. */
@@ -60,9 +60,21 @@ export function MainMenuItem({label, icon, onClick, route, children, theme: pThe
         <>
             <li ref={li} className={theme.item({active: route === context.activeRoute})}>
                 {label ? (
-                    <Button {...otherProps} icon={icon} label={label} onClick={onItemClick} theme={theme} />
+                    <Button
+                        {...otherProps}
+                        icon={icon}
+                        label={label}
+                        onClick={onItemClick}
+                        theme={theme as CSSProp<ButtonCss>}
+                    />
                 ) : (
-                    <IconButton {...otherProps} icon={icon} onClick={onItemClick} rippleTheme={theme} theme={theme} />
+                    <IconButton
+                        {...otherProps}
+                        icon={icon}
+                        onClick={onItemClick}
+                        rippleTheme={theme}
+                        theme={theme as CSSProp<IconButtonCss>}
+                    />
                 )}
             </li>
             {context.renderSubMenu(

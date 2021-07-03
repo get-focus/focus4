@@ -2,7 +2,7 @@ import {range} from "lodash";
 import {useCallback, useRef} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {TimePickerCss} from "../__style__/time-picker.css";
+import {ClockCss} from "../__style__/clock.css";
 
 import {Face} from "./face";
 import {Hand, HandRef} from "./hand";
@@ -20,7 +20,7 @@ export interface MinutesProps {
     radius: number;
     selected: number;
     spacing: number;
-    theme: ToBem<TimePickerCss>;
+    theme: ToBem<ClockCss>;
 }
 
 export function Minutes({center, onChange, onHandMoved, radius, selected, spacing, theme}: MinutesProps) {
@@ -55,13 +55,13 @@ export function Minutes({center, onChange, onHandMoved, radius, selected, spacin
             />
             <Hand
                 ref={handNode}
-                className={minutes.indexOf(selected) === -1 ? theme.small() : ""}
                 angle={selected * step}
                 length={radius - spacing}
                 onMove={handleHandMove}
                 onMoved={onHandMoved}
                 origin={center}
                 theme={theme}
+                small={minutes.indexOf(selected) === -1}
                 step={step}
             />
         </div>

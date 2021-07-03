@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import {CSSProperties, MouseEventHandler, ReactNode, TouchEventHandler} from "react";
 
 import {ToBem} from "@focus4/styling";
@@ -26,7 +25,7 @@ export const Check = rippleFactory({rippleCentered: true, rippleSpread: 2.6})(fu
     return (
         <div
             data-react-toolbox="check"
-            className={classnames(theme.check(), {[theme.checked()]: value})}
+            className={theme.check({checked: value})}
             onMouseDown={onMouseDown}
             onTouchStart={onTouchStart}
             style={style}

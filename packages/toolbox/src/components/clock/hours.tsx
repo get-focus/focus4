@@ -2,7 +2,7 @@ import {range} from "lodash";
 import {useCallback, useRef, useState} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {TimePickerCss} from "../__style__/time-picker.css";
+import {ClockCss} from "../__style__/clock.css";
 
 import {Face} from "./face";
 import {Hand, HandRef} from "./hand";
@@ -23,7 +23,7 @@ export interface HoursProps {
     radius: number;
     selected: number;
     spacing: number;
-    theme: ToBem<TimePickerCss>;
+    theme: ToBem<ClockCss>;
 }
 
 export function Hours({center, format, onChange, onHandMoved, radius, selected, spacing, theme}: HoursProps) {

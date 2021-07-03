@@ -1,25 +1,22 @@
 import {MouseEventHandler, ReactNode, TouchEventHandler} from "react";
 
-import {ToBem} from "@focus4/styling";
-import {SwitchCss} from "../__style__/switch.css";
-
 import {rippleFactory} from "../ripple";
 
 export interface ThumbProps {
     children?: ReactNode;
+    className?: string;
     onMouseDown?: MouseEventHandler<HTMLSpanElement>;
     onTouchStart?: TouchEventHandler<HTMLSpanElement>;
-    theme: ToBem<SwitchCss>;
 }
 
 export const Thumb = rippleFactory({rippleCentered: true, rippleSpread: 2.6})(function RTThumb({
+    className,
     children,
     onMouseDown,
-    onTouchStart,
-    theme
+    onTouchStart
 }: ThumbProps) {
     return (
-        <span className={theme.thumb()} onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
+        <span className={className} onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
             {children}
         </span>
     );

@@ -9,35 +9,41 @@
     width: var(--radio-button-size);
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
+
+    &::before {
+        background-color: var(--radio-inner-color);
+        border-radius: 50%;
+        content: "";
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        transform: scale(0);
+        transition: transform 0.2s var(--animation-curve-default);
+        width: 100%;
+    }
+
+    & .ripple {
+        background-color: var(--radio-inner-color);
+        opacity: 0.3;
+        transition-duration: 650ms;
+    }
 }
-.radio *,
-.radio *::after,
-.radio *::before {
-    box-sizing: border-box;
-}
-.radio::before {
-    background-color: var(--radio-inner-color);
-    border-radius: 50%;
-    content: "";
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transform: scale(0);
-    transition: transform 0.2s var(--animation-curve-default);
-    width: 100%;
-}
-.radio .ripple {
-    background-color: var(--radio-inner-color);
-    opacity: 0.3;
-    transition-duration: 650ms;
-}
-.radioChecked {
+
+.radio--checked {
     border: calc(0.2 * var(--unit)) solid var(--radio-inner-color);
+
+    &::before {
+        transform: scale(0.65);
+    }
 }
-.radioChecked::before {
-    transform: scale(0.65);
-}
+
 .field {
     display: block;
     height: var(--radio-button-size);
@@ -45,6 +51,7 @@
     position: relative;
     white-space: nowrap;
 }
+
 .text {
     color: var(--radio-text-color);
     display: inline-block;
@@ -54,6 +61,7 @@
     vertical-align: top;
     white-space: nowrap;
 }
+
 .input {
     border: 0;
     height: 0;
@@ -62,24 +70,32 @@
     padding: 0;
     position: absolute;
     width: 0;
+
+    &:focus ~ .radio {
+        box-shadow: 0 0 0 var(--unit) var(--radio-focus-color);
+    }
+
+    &:focus ~ .radio--checked {
+        box-shadow: 0 0 0 var(--unit) var(--radio-checked-focus-color);
+    }
 }
-.input:focus ~ .radio {
-    box-shadow: 0 0 0 var(--unit) var(--radio-focus-color);
-}
-.input:focus ~ .radioChecked {
-    box-shadow: 0 0 0 var(--unit) var(--radio-checked-focus-color);
-}
-.disabled .text {
-    color: var(--radio-disabled-color);
-}
-.disabled .radio {
-    border-color: var(--radio-disabled-color);
-    cursor: auto;
-}
-.disabled .radioChecked {
-    border-color: var(--radio-disabled-color);
-    cursor: auto;
-}
-.disabled .radioChecked::before {
-    background-color: var(--radio-disabled-color);
+
+.field--disabled {
+    & .text {
+        color: var(--radio-disabled-color);
+    }
+
+    & .radio {
+        border-color: var(--radio-disabled-color);
+        cursor: auto;
+    }
+
+    & .radio--checked {
+        border-color: var(--radio-disabled-color);
+        cursor: auto;
+
+        &::before {
+            background-color: var(--radio-disabled-color);
+        }
+    }
 }

@@ -3,17 +3,14 @@
     position: relative;
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
 }
-.autocomplete *,
-.autocomplete *::after,
-.autocomplete *::before {
-    box-sizing: border-box;
-}
-.autocomplete.focus .suggestions {
-    box-shadow: var(--zdepth-shadow-1);
-    max-height: var(--autocomplete-overflow-max-height);
-    visibility: visible;
-}
+
 .values {
     flex-direction: row;
     flex-wrap: wrap;
@@ -21,9 +18,11 @@
     margin: 0;
     padding: 0 0 calc(var(--unit) / 2) 0;
 }
+
 .value {
     margin: var(--autocomplete-value-margin);
 }
+
 .suggestions {
     background-color: var(--autocomplete-suggestions-background);
     list-style: none;
@@ -38,38 +37,51 @@
     visibility: hidden;
     width: 100%;
     z-index: var(--z-index-high);
+
+    &:not(.suggestions--up) {
+        margin-top: calc(-1 * var(--input-padding));
+    }
+
+    &::-webkit-scrollbar {
+        height: 0;
+        width: 0;
+    }
 }
-.suggestions:not(.up) {
-    margin-top: calc(-1 * var(--input-padding));
-}
-.suggestions.up {
+
+.suggestions--up {
     bottom: 0;
 }
-.suggestions::-webkit-scrollbar {
-    height: 0;
-    width: 0;
+
+.autocomplete--focus .suggestions {
+    box-shadow: var(--zdepth-shadow-1);
+    max-height: var(--autocomplete-overflow-max-height);
+    visibility: visible;
 }
+
 .suggestion {
     cursor: pointer;
     font-size: var(--input-field-font-size);
     padding: var(--autocomplete-suggestion-padding);
 }
-.suggestion.active {
+
+.suggestion--active {
     background-color: var(--autocomplete-suggestion-active-background);
 }
+
 .input {
     position: relative;
-}
-.input::after {
-    border-left: var(--autocomplete-border-size) solid transparent;
-    border-right: var(--autocomplete-border-size) solid transparent;
-    border-top: var(--autocomplete-border-size) solid var(--input-text-bottom-border-color);
-    content: "";
-    height: 0;
-    pointer-events: none;
-    position: absolute;
-    right: var(--input-chevron-offset);
-    top: 50%;
-    transition: transform var(--animation-duration) var(--animation-curve-default);
-    width: 0;
+
+    &::after {
+        border-left: var(--autocomplete-border-size) solid transparent;
+        border-right: var(--autocomplete-border-size) solid transparent;
+        border-top: var(--autocomplete-border-size) solid var(--input-text-bottom-border-color);
+        content: "";
+        height: 0;
+        pointer-events: none;
+        position: absolute;
+        right: var(--input-chevron-offset);
+        top: 50%;
+        transition: transform var(--animation-duration) var(--animation-curve-default);
+        width: 0;
+    }
 }

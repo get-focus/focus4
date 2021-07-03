@@ -1,3 +1,43 @@
+.header {
+    background-color: var(--input-date-primary-color);
+    color: var(--input-date-primary-contrast-color);
+    cursor: pointer;
+    padding: calc(1.6 * var(--unit)) calc(2 * var(--unit));
+}
+
+.header--years .date {
+    opacity: var(--input-date-inactive-opacity);
+}
+
+.header--years .year {
+    font-size: var(--font-size-normal);
+}
+
+.header--months .year {
+    opacity: var(--input-date-inactive-opacity);
+}
+
+.year {
+    display: inline-block;
+    font-size: var(--input-date-year-font-size);
+    transition: opacity, font-size var(--animation-duration) var(--animation-curve-default);
+}
+
+.date {
+    display: block;
+    font-size: calc(3.4 * var(--unit));
+    font-weight: 400;
+    font-weight: var(--font-weight-semi-bold);
+    line-height: calc(4 * var(--unit));
+    margin: 0;
+    text-transform: capitalize;
+    transition: opacity var(--animation-duration) var(--animation-curve-default);
+}
+
+.calendarWrapper {
+    padding: var(--unit) calc(0.5 * var(--unit)) 0;
+}
+
 .input {
     position: relative;
 }
@@ -18,21 +58,21 @@
     }
 }
 
+.calendar--fromRight {
+    right: 0;
+}
+
+.calendar--up {
+    bottom: 60px;
+}
+
+.calendar--down {
+    top: 60px;
+}
+
 .toggle {
     position: absolute;
     right: 5px;
     top: 5px;
     color: rgb(var(--color-white)) !important;
-}
-
-.fromRight {
-    right: 0;
-}
-
-.up {
-    bottom: 60px;
-}
-
-.down {
-    top: 60px;
 }

@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import {uniqueId} from "lodash";
 import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
@@ -6,22 +5,26 @@ import moment from "moment-timezone";
 import {Component, KeyboardEvent} from "react";
 
 import {CSSProp, themr} from "@focus4/styling";
-import {Calendar, CalendarProps, datePickerCss, DatePickerCss, IconButton, InputCss} from "@focus4/toolbox";
+import {Calendar, CalendarProps, IconButton} from "@focus4/toolbox";
 
 import {Input, InputProps} from "./input";
 
-const Theme = themr("RTDatePicker", datePickerCss);
-
-import inputDateCss from "./__style__/input-date.css";
+import inputDateCss, {InputDateCss} from "./__style__/input-date.css";
 export {inputDateCss};
 
-export interface InputDateProps extends InputProps<"string"> {
+const Theme = themr("inputDate", inputDateCss);
+
+export interface InputDateProps {
     /** Format de l'affichage de la date dans le calendrier. */
     calendarFormat?: string;
+    /* Autres props du Calendar RT */
+    calendarProps?: Omit<CalendarProps, "display" | "handleSelect" | "onChange" | "selectedDate">;
     /** Composant affiché depuis la gauche ou la droite. */
     displayFrom?: "left" | "right";
     /** Format de la date dans l'input. */
     inputFormat?: string;
+    /** Props de l'input. */
+    inputProps?: Omit<InputProps<"string">, "mask" | "onChange" | "onKeyDown" | "onFocus" | "type" | "value">;
     /**
      * Définit la correspondance entre une date et l'ISOString (date/heure) associé.
      *
@@ -40,17 +43,17 @@ export interface InputDateProps extends InputProps<"string"> {
      * Par défaut "utc-midnight".
      */
     ISOStringFormat?: "utc-midnight" | "local-midnight" | "local-utc-midnight";
-    /** CSS. */
-    theme?: CSSProp<DatePickerCss & InputCss>;
-    /** Valeur. */
-    value: string | undefined;
-    /* Autres props du Calendar React */
-    calendarProps?: CalendarProps;
+    /** Appelé lorsque la date change. */
+    onChange: (date: string | undefined) => void;
     /**
      * Code Timezone que l'on souhaite appliquer au DatePicker dans le cas d'une Timezone différente de celle du navigateur (https://momentjs.com/timezone/)
      * Incompatible avec l'usage de ISOStringFormat
      */
     timezoneCode?: string;
+    /** CSS. */
+    theme?: CSSProp<InputDateCss>;
+    /** Valeur. */
+    value: string | undefined;
 }
 
 /** Composant d'input avec un calendrier (React-Toolbox). Diffère du DatePicker classique car il n'est pas affiché en plein écran et autorise la saisie manuelle. */
@@ -253,14 +256,13 @@ export class InputDate extends Component<InputDateProps> {
             inputFormat = "MM/DD/YYYY",
             calendarFormat = "ddd, MMM D",
             displayFrom = "left",
-            ISOStringFormat = "utc-midnight",
             calendarProps = {},
-            ...inputProps
+            inputProps = {}
         } = this.props;
         return (
             <Theme theme={pTheme}>
                 {theme => (
-                    <div data-focus="input-date" data-id={this._inputDateId} className={inputDateCss.input}>
+                    <div data-focus="input-date" data-id={this._inputDateId} className={theme.input()}>
                         <Input
                             {...inputProps}
                             {...{autoComplete: "off"}}
@@ -268,24 +270,18 @@ export class InputDate extends Component<InputDateProps> {
                             onChange={value => (this.dateText = value)}
                             onKeyDown={this.handleKeyDown}
                             onFocus={() => (this.showCalendar = true)}
-                            theme={theme}
+                            type="string"
                             value={this.dateText || ""}
                         />
                         {this.showCalendar ? (
                             <div
                                 ref={cal => (this.calendar = cal)}
-                                className={classNames(
-                                    inputDateCss.calendar,
-                                    displayFrom === "right" ? inputDateCss.fromRight : "",
-                                    this.calendarPosition === "up" ? inputDateCss.up : inputDateCss.down
-                                )}
+                                className={theme.calendar({
+                                    [this.calendarPosition ?? "down"]: true,
+                                    fromRight: displayFrom == "right"
+                                })}
                             >
-                                <header
-                                    className={classNames(
-                                        theme.header(),
-                                        (theme as any)[`${this.calendarDisplay}Display`]()
-                                    )}
-                                >
+                                <header className={theme.header({[this.calendarDisplay]: true})}>
                                     <span
                                         id="years"
                                         className={theme.year()}
@@ -302,18 +298,17 @@ export class InputDate extends Component<InputDateProps> {
                                     </h3>
                                     <IconButton
                                         icon="clear"
-                                        theme={{toggle: inputDateCss.toggle}}
+                                        theme={{toggle: theme.toggle()}}
                                         onClick={() => (this.showCalendar = false)}
                                     />
                                 </header>
                                 <div className={theme.calendarWrapper()}>
                                     <Calendar
                                         {...calendarProps}
-                                        handleSelect={() => null}
-                                        selectedDate={this.jsDate}
                                         display={this.calendarDisplay}
+                                        handleSelect={() => null}
                                         onChange={this.onCalendarChange}
-                                        theme={theme}
+                                        selectedDate={this.jsDate}
                                     />
                                 </div>
                             </div>

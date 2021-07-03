@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {
     CSSProperties,
     FocusEventHandler,
@@ -83,6 +83,7 @@ export interface InputProps {
 export const Input = forwardRef(function RTInput(
     {
         autoComplete,
+        className,
         children,
         disabled = false,
         error,
@@ -203,16 +204,9 @@ export const Input = forwardRef(function RTInput(
 
     const length = maxLength && value ? value.length : 0;
 
-    const className = classnames(theme.input(), {
-        [theme.disabled()]: disabled,
-        [theme.errored()]: error,
-        [theme.hidden()]: type === "hidden",
-        [theme.withIcon()]: icon
-    });
-    const labelClassName = classnames(theme.label(), {[(theme as any).fixed()]: !floating});
     const inputElementProps = {
         autoComplete,
-        className: classnames(theme.inputElement(), {[(theme as any).filled()]: value!!}),
+        className: theme.inputElement({filled: !!value}),
         onChange: handleChange,
         ref: inputNode,
         disabled,
@@ -243,7 +237,13 @@ export const Input = forwardRef(function RTInput(
     };
 
     return (
-        <div data-react-toolbox="input" className={className}>
+        <div
+            data-react-toolbox="input"
+            className={classNames(
+                theme.input({disabled, errored: !!error, hidden: type === "hidden", withIcon: !!icon}),
+                className
+            )}
+        >
             {multiline ? (
                 <textarea {...inputElementProps} rows={rows} />
             ) : (
@@ -252,7 +252,7 @@ export const Input = forwardRef(function RTInput(
             {icon ? <FontIcon className={theme.icon()} value={icon} /> : null}
             <span className={theme.bar()} />
             {labelText ? (
-                <label className={labelClassName}>
+                <label className={theme.label({fixed: !floating})}>
                     {labelText}
                     {required ? <span className={theme.required()}> * </span> : null}
                 </label>

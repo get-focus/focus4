@@ -1,0 +1,8 @@
+:root {
+    --input-time-header-font-size: calc(5.2 * var(--unit));
+    --input-time-header-padding: var(--unit);
+    --input-time-primary-color: rgb(var(--color-primary));
+    --input-time-primary-contrast-color: rgb(var(--color-primary-contrast));
+    --input-time-shadow: var(--shadow-4p);
+    --input-time-width: 300px;
+}

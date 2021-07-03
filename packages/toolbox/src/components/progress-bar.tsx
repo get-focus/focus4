@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {forwardRef, MouseEventHandler, Ref, TouchEventHandler, useCallback, useMemo} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -82,22 +82,16 @@ export const ProgressBar = forwardRef(function RTProgressBar(
         return {};
     }, [buffer, calculateRatio, mode, value]);
 
-    const _className = classnames(
-        theme[type](),
-        {
-            [theme.indeterminate()]: mode === "indeterminate",
-            [theme.multicolor()]: multicolor
-        },
-        className
-    );
-
     return (
         <div
             data-react-toolbox="progress-bar"
             aria-valuenow={value}
             aria-valuemin={min}
             aria-valuemax={max}
-            className={_className}
+            className={classNames(
+                theme.progressBar({[type]: true, indeterminate: mode === "indeterminate", multicolor}),
+                className
+            )}
             onClick={onClick}
             onMouseDown={onMouseDown}
             onMouseEnter={onMouseEnter}

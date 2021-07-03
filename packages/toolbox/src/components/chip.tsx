@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {Children, MouseEventHandler, TouchEventHandler} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -38,26 +38,17 @@ export function Chip({
 }: ChipProps) {
     const theme = useTheme("RTChip", chipCss, pTheme);
 
-    let hasAvatar = false;
+    let avatar = false;
     if (Children.count(children)) {
         const flatChildren = Children.toArray(children);
         const firstChild = flatChildren[0];
-        hasAvatar = (firstChild as any)?.type === Avatar;
+        avatar = (firstChild as any)?.type === Avatar;
     }
-
-    const classes = classnames(
-        theme.chip(),
-        {
-            [theme.deletable()]: !!deletable,
-            [theme.avatar()]: !!hasAvatar
-        },
-        className
-    );
 
     return (
         <div
             data-react-toolbox="chip"
-            className={classes}
+            className={classNames(theme.chip({avatar, deletable}), className)}
             onClick={onClick}
             onMouseDown={onMouseDown}
             onMouseEnter={onMouseEnter}

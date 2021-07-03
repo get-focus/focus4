@@ -1,19 +1,4 @@
 :root {
-    --datepicker-primary: rgb(var(--color-primary));
-    --datepicker-primary-contrast: rgb(var(--color-primary-contrast));
-    --datepicker-primary-dark: rgb(var(--color-primary-dark));
-    --datepicker-primary-color: rgb(var(--color-primary));
-    --datepicker-primary-hover-color: rgba(var(--color-primary), 0.2);
-    --datepicker-primary-contrast-color: rgb(var(--color-primary-contrast));
-    --datepicker-primary-dark-color: rgb(var(--color-primary-dark));
-    --datepicker-dialog-width: calc(33 * var(--unit));
-    --datepicker-inactive-opacity: 0.6;
-    --datepicker-weekday-line-height: calc(2 * var(--unit));
-    --datepicker-weekday-font-size: var(--font-size-small);
-    --datepicker-month-font-size: var(--font-size-big);
-    --datepicker-day-font-size: calc(5 * var(--unit));
-    --datepicker-day-line-height: calc(4 * var(--unit));
-    --datepicker-year-font-size: var(--font-size-small);
     --calendar-primary: rgb(var(--color-primary));
     --calendar-primary-contrast: rgb(var(--color-primary-contrast));
     --calendar-primary-color: rgb(var(--color-primary));

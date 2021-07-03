@@ -12,21 +12,25 @@
     width: var(--avatar-size);
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
+
+    & > svg {
+        fill: currentColor;
+        height: var(--avatar-size);
+        width: 1em;
+    }
+
+    & > img {
+        height: auto;
+        max-width: 100%;
+    }
 }
-.avatar *,
-.avatar *::after,
-.avatar *::before {
-    box-sizing: border-box;
-}
-.avatar > svg {
-    fill: currentColor;
-    height: var(--avatar-size);
-    width: 1em;
-}
-.avatar > img {
-    height: auto;
-    max-width: 100%;
-}
+
 .image {
     background-color: transparent;
     background-position: center;
@@ -37,6 +41,7 @@
     position: absolute;
     width: 100%;
 }
+
 .letter {
     display: block;
     line-height: var(--avatar-size);

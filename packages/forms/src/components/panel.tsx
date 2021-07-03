@@ -85,7 +85,7 @@ export function Panel({
     return (
         <div ref={ref} id={name ? `panel-${name}` : undefined} className={theme.panel({loading, editing})}>
             {!hideProgressBar && loading ? (
-                <ProgressBar mode="indeterminate" theme={{indeterminate: theme.progress()}} />
+                <ProgressBar mode="indeterminate" theme={{progressBar: theme.progress()}} />
             ) : null}
             {title || areButtonsTop ? (
                 <div className={theme.title({top: true})}>

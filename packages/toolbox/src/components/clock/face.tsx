@@ -1,8 +1,7 @@
-import classnames from "classnames";
 import {MouseEventHandler, TouchEventHandler, useCallback, useMemo} from "react";
 
 import {ToBem} from "@focus4/styling";
-import {TimePickerCss} from "../__style__/time-picker.css";
+import {ClockCss} from "../__style__/clock.css";
 
 export interface FaceProps {
     active: number;
@@ -11,7 +10,7 @@ export interface FaceProps {
     onTouchStart?: TouchEventHandler<HTMLDivElement>;
     radius: number;
     spacing: number;
-    theme: ToBem<TimePickerCss>;
+    theme: ToBem<ClockCss>;
     twoDigits?: boolean;
 }
 
@@ -45,7 +44,7 @@ export function Face({
     const renderNumber = useCallback(
         (n: number, idx: number) => (
             <span
-                className={classnames(theme.number(), {[theme.active()]: n === active})}
+                className={theme.number({active: n === active})}
                 style={numberStyle(radius - spacing, idx + 1)}
                 key={n}
             >

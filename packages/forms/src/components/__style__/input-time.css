@@ -1,0 +1,68 @@
+.header {
+    background: var(--input-time-primary-color);
+    color: var(--input-time-primary-contrast-color);
+    font-size: var(--input-time-header-font-size);
+    padding: var(--input-time-header-padding);
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.hours,
+.minutes {
+    cursor: pointer;
+    display: inline-block;
+    opacity: 0.6;
+}
+
+.hours--selected {
+    opacity: 1;
+}
+
+.minutes--selected {
+    opacity: 1;
+}
+
+.separator {
+    margin: 0 calc(var(--input-time-header-padding) / 2);
+    opacity: 0.6;
+}
+
+.input {
+    position: relative;
+}
+
+.clock {
+    position: absolute;
+    z-index: var(--z-index-normal);
+    width: var(--input-time-width);
+    box-shadow: var(--input-time-shadow);
+    background: rgb(var(--color-white));
+
+    & header {
+        box-sizing: border-box;
+    }
+
+    & .clock {
+        position: static;
+    }
+}
+
+.clock--fromRight {
+    right: 0;
+}
+
+.clock--up {
+    bottom: 60px;
+}
+
+.clock--down {
+    top: 60px;
+}
+
+.toggle {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: rgb(var(--color-white)) !important;
+}

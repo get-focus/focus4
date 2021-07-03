@@ -3,15 +3,18 @@
     position: relative;
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
 }
-.input *,
-.input *::after,
-.input *::before {
-    box-sizing: border-box;
-}
-.input.withIcon {
+
+.input--withIcon {
     margin-left: calc(var(--input-icon-size) + var(--input-icon-right-space));
 }
+
 .icon {
     color: var(--input-text-label-color);
     display: block;
@@ -25,6 +28,7 @@
     transition: color var(--animation-duration) var(--animation-curve-default);
     width: var(--input-icon-size);
 }
+
 .inputElement {
     background-color: var(--input-text-background-color);
     border-bottom: 1px solid var(--input-text-bottom-border-color);
@@ -38,41 +42,52 @@
     outline: none;
     padding: var(--input-field-padding) 0;
     width: 100%;
+
+    &:required {
+        box-shadow: none;
+    }
+
+    &:focus:not([disabled]):not([readonly]) {
+        & ~ .bar::before,
+        & ~ .bar::after {
+            width: 50%;
+        }
+
+        & ~ .label:not(.label--fixed) {
+            color: var(--input-text-highlight-color);
+        }
+        & ~ .label > .required {
+            color: var(--input-text-required-color);
+        }
+
+        & ~ .hint {
+            display: block;
+            opacity: var(--input-hint-opacity);
+        }
+
+        & ~ .icon {
+            color: var(--input-text-highlight-color);
+        }
+    }
 }
-.inputElement:required {
-    box-shadow: none;
-}
-.inputElement:focus:not([disabled]):not([readonly]) ~ .bar::before,
-.inputElement:focus:not([disabled]):not([readonly]) ~ .bar::after {
-    width: 50%;
-}
-.inputElement:focus:not([disabled]):not([readonly]) ~ .label:not(.fixed) {
-    color: var(--input-text-highlight-color);
-}
-.inputElement:focus:not([disabled]):not([readonly]) ~ .label > .required {
-    color: var(--input-text-required-color);
-}
-.inputElement:focus:not([disabled]):not([readonly]) ~ .hint {
-    display: block;
-    opacity: var(--input-hint-opacity);
-}
-.inputElement:focus:not([disabled]):not([readonly]) ~ .icon {
-    color: var(--input-text-highlight-color);
-}
-.inputElement:focus:not([disabled]):not([readonly]).filled ~ .hint {
+
+.inputElement--filled ~ .hint {
     opacity: 0;
 }
-.inputElement:focus:not([disabled]):not([readonly]) ~ .label:not(.fixed),
-.inputElement.filled ~ .label:not(.fixed),
-.inputElement[type="date"] ~ .label:not(.fixed),
-.inputElement[type="time"] ~ .label:not(.fixed) {
+
+.inputElement:focus:not([disabled]):not([readonly]) ~ .label:not(.label--fixed),
+.inputElement--filled ~ .label:not(.label--fixed),
+.inputElement[type="date"] ~ .label:not(.label--fixed),
+.inputElement[type="time"] ~ .label:not(.label--fixed) {
     font-size: var(--input-label-font-size);
     top: var(--input-focus-label-top);
 }
-.inputElement.filled ~ .label.fixed,
-.inputElement.filled ~ .hint {
+
+.inputElement--filled ~ .label--fixed,
+.inputElement--filled ~ .hint {
     display: none;
 }
+
 .label {
     color: var(--input-text-label-color);
     font-size: var(--input-field-font-size);
@@ -85,9 +100,11 @@
     transition-property: top, font-size, color;
     transition-timing-function: var(--animation-curve-default);
 }
-.label.fixed ~ .hint {
+
+.label--fixed ~ .hint {
     display: none;
 }
+
 .hint {
     color: var(--input-text-label-color);
     font-size: var(--input-field-font-size);
@@ -101,29 +118,34 @@
     transition-property: opacity;
     transition-timing-function: var(--animation-curve-default);
 }
+
 .bar {
     display: block;
     position: relative;
     width: 100%;
+
+    &::before,
+    &::after {
+        background-color: var(--input-text-highlight-color);
+        bottom: 0;
+        content: "";
+        height: 2px;
+        position: absolute;
+        transition-duration: 0.2s;
+        transition-property: width, background-color;
+        transition-timing-function: var(--animation-curve-default);
+        width: 0;
+    }
+
+    &::before {
+        left: 50%;
+    }
+
+    &::after {
+        right: 50%;
+    }
 }
-.bar::before,
-.bar::after {
-    background-color: var(--input-text-highlight-color);
-    bottom: 0;
-    content: "";
-    height: 2px;
-    position: absolute;
-    transition-duration: 0.2s;
-    transition-property: width, background-color;
-    transition-timing-function: var(--animation-curve-default);
-    width: 0;
-}
-.bar::before {
-    left: 50%;
-}
-.bar::after {
-    right: 50%;
-}
+
 .error,
 .counter {
     color: var(--input-text-error-color);
@@ -131,29 +153,35 @@
     line-height: var(--input-underline-height);
     margin-bottom: calc(-1 * var(--input-underline-height));
 }
+
 .counter {
     color: var(--input-text-label-color);
     position: absolute;
     right: 0;
 }
-.disabled > .inputElement {
+
+.input--disabled > .inputElement {
     border-bottom-style: dashed;
     color: var(--input-text-disabled-text-color);
 }
-.errored {
+
+.input--errored {
     padding-bottom: 0;
+    & > .inputElement {
+        border-bottom-color: var(--input-text-error-color);
+        margin-top: 1px;
+    }
+
+    & > .counter,
+    & > .label {
+        color: var(--input-text-error-color);
+    }
+
+    & > .label > .required {
+        color: var(--input-text-required-color);
+    }
 }
-.errored > .inputElement {
-    border-bottom-color: var(--input-text-error-color);
-    margin-top: 1px;
-}
-.errored > .counter,
-.errored > .label {
-    color: var(--input-text-error-color);
-}
-.errored > .label > .required {
-    color: var(--input-text-required-color);
-}
-.hidden {
+
+.input--hidden {
     display: none;
 }

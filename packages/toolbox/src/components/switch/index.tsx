@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEvent, ReactNode, useCallback, useRef} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -51,10 +51,7 @@ export function Switch({
     );
 
     return (
-        <label
-            data-react-toolbox="switch"
-            className={classnames(theme.field(), {[theme.disabled()]: disabled}, className)}
-        >
+        <label data-react-toolbox="switch" className={classNames(theme.field({disabled}), className)}>
             <input
                 checked={value}
                 className={theme.input()}
@@ -65,8 +62,8 @@ export function Switch({
                 ref={inputNode}
                 type="checkbox"
             />
-            <span className={theme[value ? "on" : "off"]()}>
-                <Thumb disabled={disabled} rippleTheme={{ripple: theme.ripple()}} theme={theme} />
+            <span className={theme.container({on: value, off: !value})}>
+                <Thumb className={theme.thumb()} disabled={disabled} rippleTheme={{ripple: theme.ripple()}} />
             </span>
             {label ? <span className={theme.text()}>{label}</span> : null}
         </label>

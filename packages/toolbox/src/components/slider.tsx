@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {range} from "lodash";
 import {
     MouseEvent as RMouseEvent,
@@ -53,7 +53,7 @@ export interface SliderProps {
 
 export function Slider({
     buffer = 0,
-    className: pClassName = "",
+    className = "",
     disabled,
     editable = false,
     max = 100,
@@ -255,22 +255,11 @@ export function Slider({
     }, [handleKeyDown, sliderFocused]);
 
     const knobOffset = useMemo(() => ((value - min) / (max - min)) * 100, [max, min, value]);
-
     const knobStyles = {left: `${knobOffset}%`};
-    const className = classnames(
-        theme.slider(),
-        {
-            [theme.editable()]: editable,
-            [theme.pinned()]: pinned,
-            [theme.pressed()]: pressed,
-            [theme.ring()]: value === min
-        },
-        pClassName
-    );
 
     return (
         <div
-            className={className}
+            className={classNames(theme.slider({editable, pinned, pressed, ring: value === min}), className)}
             data-react-toolbox="slider"
             onBlur={() => setSliderFocused(false)}
             onClick={onClick}

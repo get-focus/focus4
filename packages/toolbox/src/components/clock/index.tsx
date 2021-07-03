@@ -2,8 +2,8 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 import {CSSProp, cssTransitionProps, fromBem, useTheme} from "@focus4/styling";
-import timePickerCss, {TimePickerCss} from "../__style__/time-picker.css";
-export {timePickerCss, TimePickerCss};
+import clockCss, {ClockCss} from "../__style__/clock.css";
+export {clockCss, ClockCss};
 
 import {Hours} from "./hours";
 import {Minutes} from "./minutes";
@@ -13,7 +13,7 @@ export interface ClockProps {
     format?: "24hr" | "ampm";
     onChange?: (date: Date) => void;
     onHandMoved?: () => void;
-    theme?: CSSProp<TimePickerCss>;
+    theme?: CSSProp<ClockCss>;
     time?: Date;
 }
 
@@ -25,7 +25,7 @@ export function Clock({
     theme: pTheme,
     time = new Date()
 }: ClockProps) {
-    const theme = useTheme("RTTimePicker", timePickerCss, pTheme);
+    const theme = useTheme("RTClock", clockCss, pTheme);
 
     const placeholderNode = useRef<HTMLDivElement | null>(null);
     const [center, setCenter] = useState({x: 0, y: 0});

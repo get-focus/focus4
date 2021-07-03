@@ -6,17 +6,19 @@
     white-space: nowrap;
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
+    & .ripple {
+        background-color: var(--checkbox-color);
+        opacity: 0.3;
+        transition-duration: var(--checkbox-ripple-duration);
+    }
 }
-.field *,
-.field *::after,
-.field *::before {
-    box-sizing: border-box;
-}
-.field .ripple {
-    background-color: var(--checkbox-color);
-    opacity: 0.3;
-    transition-duration: var(--checkbox-ripple-duration);
-}
+
 .text {
     color: var(--checkbox-text-color);
     display: inline-block;
@@ -26,6 +28,7 @@
     vertical-align: top;
     white-space: nowrap;
 }
+
 .input {
     height: 0;
     opacity: 0;
@@ -33,6 +36,7 @@
     position: absolute;
     width: 0;
 }
+
 .input:focus ~ .check::before {
     background-color: var(--checkbox-focus-color);
     border-radius: 50%;
@@ -46,9 +50,11 @@
     top: 50%;
     width: var(--checkbox-focus-size);
 }
-.input:focus ~ .check.checked::before {
+
+.input:focus ~ .check--checked::before {
     background-color: var(--checkbox-focus-checked-color);
 }
+
 .check {
     border-color: var(--checkbox-border-color);
     border-radius: 2px;
@@ -64,38 +70,46 @@
     vertical-align: top;
     width: var(--checkbox-size);
 }
-.check.checked {
+
+.check--checked {
     background-color: var(--checkbox-color);
     border-color: var(--checkbox-color);
+
+    &::after {
+        animation: expand 140ms ease-out forwards;
+        border-bottom-width: 2px;
+        border-color: rgb(var(--color-background));
+        border-left: 0;
+        border-right-width: 2px;
+        border-style: solid;
+        border-top: 0;
+        content: "";
+        height: calc(1.2 * var(--unit));
+        left: calc(0.4 * var(--unit));
+        position: absolute;
+        top: calc(-0.1 * var(--unit));
+        transform: rotate(45deg);
+        width: calc(0.7 * var(--unit));
+    }
 }
-.check.checked::after {
-    animation: expand 140ms ease-out forwards;
-    border-bottom-width: 2px;
-    border-color: rgb(var(--color-background));
-    border-left: 0;
-    border-right-width: 2px;
-    border-style: solid;
-    border-top: 0;
-    content: "";
-    height: calc(1.2 * var(--unit));
-    left: calc(0.4 * var(--unit));
-    position: absolute;
-    top: calc(-0.1 * var(--unit));
-    transform: rotate(45deg);
-    width: calc(0.7 * var(--unit));
+
+.field--disabled {
+    & > .text {
+        color: var(--checkbox-disabled-color);
+    }
+
+    & > .check {
+        border-color: var(--checkbox-disabled-color);
+        cursor: auto;
+    }
+
+    & > .check--checked {
+        background-color: var(--checkbox-disabled-color);
+        border-color: transparent;
+        cursor: auto;
+    }
 }
-.disabled > .text {
-    color: var(--checkbox-disabled-color);
-}
-.disabled > .check {
-    border-color: var(--checkbox-disabled-color);
-    cursor: auto;
-}
-.disabled > .check.checked {
-    background-color: var(--checkbox-disabled-color);
-    border-color: transparent;
-    cursor: auto;
-}
+
 @keyframes expand {
     0% {
         height: 0;

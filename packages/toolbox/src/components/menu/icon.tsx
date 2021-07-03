@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {MouseEvent, MouseEventHandler, ReactNode, useCallback, useEffect, useState} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -77,7 +77,7 @@ export function IconMenu({
     }, [onHide]);
 
     return (
-        <div className={classnames(theme.iconMenu(), className)}>
+        <div className={classNames(theme.iconMenu(), className)}>
             <IconButton
                 className={theme.icon()}
                 icon={icon}

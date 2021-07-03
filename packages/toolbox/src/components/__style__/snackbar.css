@@ -14,31 +14,39 @@
     z-index: var(--z-index-higher);
     box-sizing: border-box;
     font-family: var(--preferred-font);
+
+    & *,
+    & *::after,
+    & *::before {
+        box-sizing: border-box;
+    }
 }
-.snackbar *,
-.snackbar *::after,
-.snackbar *::before {
-    box-sizing: border-box;
-}
-.snackbar.accept .button {
+
+.snackbar--accept .button {
     color: var(--snackbar-color-accept);
 }
-.snackbar.warning .button {
+
+.snackbar--warning .button {
     color: var(--snackbar-color-warning);
 }
-.snackbar.cancel .button {
+
+.snackbar--cancel .button {
     color: var(--snackbar-color-cancel);
 }
-.snackbar:not(.active) {
+
+.snackbar:not(.snackbar--active) {
     transform: translateY(100%);
 }
-.snackbar.active {
+
+.snackbar--active {
     transform: translateY(0%);
 }
+
 .label {
     flex-grow: 1;
     font-size: var(--font-size-small);
 }
+
 .button {
     margin: calc(-1 * var(--snackbar-vertical-offset) / 2) calc(-1 * var(--snackbar-horizontal-offset) / 2)
         calc(-1 * var(--snackbar-vertical-offset) / 2) var(--snackbar-button-offset);

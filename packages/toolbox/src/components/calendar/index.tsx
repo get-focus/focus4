@@ -3,8 +3,8 @@ import {MouseEvent, useCallback, useEffect, useMemo, useRef, useState} from "rea
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 import {CSSProp, cssTransitionProps, fromBem, useTheme} from "@focus4/styling";
-import datePickerCss, {DatePickerCss} from "../__style__/date-picker.css";
-export {datePickerCss, DatePickerCss};
+import calendarCss, {CalendarCss} from "../__style__/calendar.css";
+export {calendarCss, CalendarCss};
 
 import {IconButton} from "../icon-button";
 import {Month} from "./month";
@@ -19,7 +19,7 @@ export interface CalendarProps {
     onChange: (date: Date, dayClick: boolean) => void;
     selectedDate?: Date;
     sundayFirstDayOfWeek?: boolean;
-    theme?: CSSProp<DatePickerCss>;
+    theme?: CSSProp<CalendarCss>;
 }
 
 export function Calendar({
@@ -34,7 +34,7 @@ export function Calendar({
     sundayFirstDayOfWeek = false,
     theme: pTheme
 }: CalendarProps) {
-    const theme = useTheme("RTDatePicker", datePickerCss, pTheme);
+    const theme = useTheme("RTCalendar", calendarCss, pTheme);
     const yearsNode = useRef<HTMLUListElement | null>(null);
     const activeYearNode = useRef<HTMLLIElement | null>(null);
 

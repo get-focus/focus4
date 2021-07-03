@@ -4,6 +4,7 @@ import {useObserver} from "mobx-react";
 import {useEffect, useState} from "react";
 
 import {themeable} from "@focus4/core";
+import {CSSProp} from "@focus4/styling";
 import {Chip, ChipCss} from "@focus4/toolbox";
 
 /** Type de Chip pour la recherche. */
@@ -30,7 +31,7 @@ export interface SearchChipProps {
     /** Préfixe i18n pour les libellés. Par défaut : "focus". */
     i18nPrefix?: string;
     /** CSS du Chip. */
-    theme?: ChipCss;
+    theme?: CSSProp<ChipCss>;
     /**
      * Passe le style retourné par cette fonction aux chips.
      * @param type Le type du chip affiché (`filter`, `facet`, `sort` ou `group`)

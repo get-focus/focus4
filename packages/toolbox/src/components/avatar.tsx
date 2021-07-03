@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import {ReactNode} from "react";
 
 import {CSSProp, useTheme} from "@focus4/styling";
@@ -28,7 +28,7 @@ export interface AvatarProps {
 export function Avatar({alt = "", className, children, cover = false, icon, image, title, theme: pTheme}: AvatarProps) {
     const theme = useTheme("RTAvatar", avatarCss, pTheme);
     return (
-        <div data-react-toolbox="avatar" className={classnames(theme.avatar(), className)}>
+        <div data-react-toolbox="avatar" className={classNames(theme.avatar(), className)}>
             {children}
             {cover && typeof image === "string" && (
                 <span aria-label={alt} className={theme.image()} style={{backgroundImage: `url(${image})`}} />
