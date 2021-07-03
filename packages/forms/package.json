@@ -1,6 +1,6 @@
 {
     "name": "@focus4/forms",
-    "version": "11.0.0-preview.0",
+    "version": "11.0.0-preview.1",
     "description": "Focus v4, forms module",
     "main": "lib/focus4.forms.js",
     "repository": {
@@ -19,8 +19,8 @@
     "dependencies": {
         "@focus4/core": "^10.9.0",
         "@focus4/stores": "^11.0.0-preview.0",
-        "@focus4/styling": "^11.0.0-preview.0",
-        "@focus4/toolbox": "^11.0.0-preview.0",
+        "@focus4/styling": "^11.0.0-preview.1",
+        "@focus4/toolbox": "^11.0.0-preview.1",
         "@types/numeral": "2.0.1",
         "@types/react-dom": "17.0.8",
         "inputmask-core": "2.2.0",

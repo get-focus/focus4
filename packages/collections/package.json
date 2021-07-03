@@ -1,6 +1,6 @@
 {
     "name": "@focus4/collections",
-    "version": "11.0.0-preview.0",
+    "version": "11.0.0-preview.1",
     "description": "Focus v4, collections module",
     "main": "lib/focus4.collections.js",
     "repository": {
@@ -17,10 +17,10 @@
     },
     "dependencies": {
         "@focus4/core": "^10.9.0",
-        "@focus4/forms": "^11.0.0-preview.0",
+        "@focus4/forms": "^11.0.0-preview.1",
         "@focus4/stores": "^11.0.0-preview.0",
-        "@focus4/styling": "^11.0.0-preview.0",
-        "@focus4/toolbox": "^11.0.0-preview.0",
+        "@focus4/styling": "^11.0.0-preview.1",
+        "@focus4/toolbox": "^11.0.0-preview.1",
         "popmotion": "8.7.3",
         "react-dnd": "14.0.2",
         "react-dnd-html5-backend": "14.0.0",

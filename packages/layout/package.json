@@ -1,6 +1,6 @@
 {
     "name": "@focus4/layout",
-    "version": "11.0.0-preview.0",
+    "version": "11.0.0-preview.1",
     "description": "Focus v4, layout module",
     "main": "lib/focus4.layout.js",
     "repository": {
@@ -16,8 +16,8 @@
     },
     "dependencies": {
         "@focus4/core": "^10.9.0",
-        "@focus4/styling": "^11.0.0-preview.0",
-        "@focus4/toolbox": "^11.0.0-preview.0",
+        "@focus4/styling": "^11.0.0-preview.1",
+        "@focus4/toolbox": "^11.0.0-preview.1",
         "intersection-observer": "0.12.0",
         "popmotion": "8.7.3",
         "react-pose": "4.0.9",
